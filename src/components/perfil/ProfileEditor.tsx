@@ -57,6 +57,22 @@ type ProfileEditorProps = {
   skillCatalog: { id: string; name: string }[];
 };
 
+function profileFormDefaults(profile: Tables<"profiles">): UpdateProfileInput {
+  return {
+    full_name: profile.full_name,
+    headline: profile.headline ?? "",
+    bio: profile.bio ?? "",
+    phone: profile.phone ?? "",
+    location_city: profile.location_city ?? "",
+    location_state: profile.location_state ?? "",
+    discloses_disability: profile.discloses_disability,
+    disability_types: profile.disability_types ?? [],
+    accessibility_needs: profile.accessibility_needs ?? [],
+    accessibility_needs_other: profile.accessibility_needs_other ?? "",
+    disability_types_other: profile.disability_types_other ?? "",
+  };
+}
+
 export function ProfileEditor({
   isOnboarding,
   profile,
@@ -92,17 +108,7 @@ function BasicsSection({ profile }: { profile: Tables<"profiles"> }) {
 
   const form = useForm<UpdateProfileInput>({
     resolver: zodResolver(updateProfileSchema),
-    defaultValues: {
-      full_name: profile.full_name,
-      headline: profile.headline ?? "",
-      bio: profile.bio ?? "",
-      phone: profile.phone ?? "",
-      location_city: profile.location_city ?? "",
-      location_state: profile.location_state ?? "",
-      discloses_disability: profile.discloses_disability,
-      disability_types: profile.disability_types ?? [],
-      accessibility_needs: profile.accessibility_needs ?? [],
-    },
+    defaultValues: profileFormDefaults(profile),
   });
 
   async function onSubmit(values: UpdateProfileInput) {
@@ -745,19 +751,11 @@ function AccessibilitySection({ profile }: { profile: Tables<"profiles"> }) {
   const [status, setStatus] = useState<string | null>(null);
   const form = useForm<UpdateProfileInput>({
     resolver: zodResolver(updateProfileSchema),
-    defaultValues: {
-      full_name: profile.full_name,
-      headline: profile.headline ?? "",
-      bio: profile.bio ?? "",
-      phone: profile.phone ?? "",
-      location_city: profile.location_city ?? "",
-      location_state: profile.location_state ?? "",
-      discloses_disability: profile.discloses_disability,
-      disability_types: profile.disability_types ?? [],
-      accessibility_needs: profile.accessibility_needs ?? [],
-    },
+    defaultValues: profileFormDefaults(profile),
   });
   const discloses = form.watch("discloses_disability");
+  const disabilityTypes = form.watch("disability_types");
+  const accessibilityNeeds = form.watch("accessibility_needs");
 
   async function onSubmit(values: UpdateProfileInput) {
     const result = await updateProfile(values);
@@ -819,33 +817,60 @@ function AccessibilitySection({ profile }: { profile: Tables<"profiles"> }) {
           />
 
           {discloses ? (
-            <FormField
-              control={form.control}
-              name="disability_types"
-              render={({ field }) => (
-                <FormItem>
-                  <fieldset>
-                    <legend className="mb-2 font-medium">Tipo de deficiência</legend>
-                    <div className="grid gap-2">
-                      {DISABILITY_TYPES.map((option) => (
-                        <label key={option.value} className="flex min-h-11 items-center gap-2">
-                          <Checkbox
-                            checked={field.value.includes(option.value)}
-                            onCheckedChange={(checked) => {
-                              const next = checked
-                                ? [...field.value, option.value]
-                                : field.value.filter((value) => value !== option.value);
-                              field.onChange(next);
-                            }}
+            <>
+              <FormField
+                control={form.control}
+                name="disability_types"
+                render={({ field }) => (
+                  <FormItem>
+                    <fieldset>
+                      <legend className="mb-2 font-medium">Tipo de deficiência</legend>
+                      <div className="grid gap-2">
+                        {DISABILITY_TYPES.map((option) => (
+                          <label key={option.value} className="flex min-h-11 items-center gap-2">
+                            <Checkbox
+                              checked={field.value.includes(option.value)}
+                              onCheckedChange={(checked) => {
+                                const next = checked
+                                  ? [...field.value, option.value]
+                                  : field.value.filter((value) => value !== option.value);
+                                field.onChange(next);
+                              }}
+                            />
+                            {option.label}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  </FormItem>
+                )}
+              />
+              {disabilityTypes.includes("outra") ? (
+                <FormField
+                  control={form.control}
+                  name="disability_types_other"
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <Field data-invalid={fieldState.invalid || undefined}>
+                        <FieldLabel htmlFor="disability_types_other">
+                          Descreva brevemente
+                        </FieldLabel>
+                        <FormControl>
+                          <Textarea
+                            id="disability_types_other"
+                            className="min-h-20"
+                            required
+                            {...field}
+                            value={field.value ?? ""}
                           />
-                          {option.label}
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-                </FormItem>
-              )}
-            />
+                        </FormControl>
+                        <FormMessage />
+                      </Field>
+                    </FormItem>
+                  )}
+                />
+              ) : null}
+            </>
           ) : null}
 
           <FormField
@@ -875,6 +900,32 @@ function AccessibilitySection({ profile }: { profile: Tables<"profiles"> }) {
               </FormItem>
             )}
           />
+
+          {accessibilityNeeds.includes("outro") ? (
+            <FormField
+              control={form.control}
+              name="accessibility_needs_other"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <Field data-invalid={fieldState.invalid || undefined}>
+                    <FieldLabel htmlFor="accessibility_needs_other">
+                      Descreva brevemente
+                    </FieldLabel>
+                    <FormControl>
+                      <Textarea
+                        id="accessibility_needs_other"
+                        className="min-h-20"
+                        required
+                        {...field}
+                        value={field.value ?? ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </Field>
+                </FormItem>
+              )}
+            />
+          ) : null}
 
           <Button type="submit">Salvar acessibilidade</Button>
         </form>

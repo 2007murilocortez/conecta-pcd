@@ -108,7 +108,15 @@ export async function updateProfile(
       disability_types: parsed.data.discloses_disability
         ? parsed.data.disability_types
         : [],
+      disability_types_other:
+        parsed.data.discloses_disability &&
+        parsed.data.disability_types.includes("outra")
+          ? emptyToNull(parsed.data.disability_types_other)
+          : null,
       accessibility_needs: parsed.data.accessibility_needs,
+      accessibility_needs_other: parsed.data.accessibility_needs.includes("outro")
+        ? emptyToNull(parsed.data.accessibility_needs_other)
+        : null,
       updated_at: new Date().toISOString(),
     })
     .eq("id", userId);

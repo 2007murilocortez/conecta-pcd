@@ -36,7 +36,28 @@ export const updateProfileSchema = z.object({
   discloses_disability: z.boolean(),
   disability_types: z.array(z.enum(disabilityTypeValues)),
   accessibility_needs: z.array(z.enum(accessibilityNeedValues)),
-});
+  accessibility_needs_other: optionalText,
+  disability_types_other: optionalText,
+})
+  .refine(
+    (data) =>
+      !data.accessibility_needs.includes("outro") ||
+      Boolean(data.accessibility_needs_other?.trim()),
+    {
+      message: "Descreva o recurso de acessibilidade",
+      path: ["accessibility_needs_other"],
+    },
+  )
+  .refine(
+    (data) =>
+      !data.discloses_disability ||
+      !data.disability_types.includes("outra") ||
+      Boolean(data.disability_types_other?.trim()),
+    {
+      message: "Descreva o tipo de deficiência",
+      path: ["disability_types_other"],
+    },
+  );
 
 export const educationSchema = z
   .object({

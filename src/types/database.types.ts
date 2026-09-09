@@ -759,11 +759,13 @@ export type Database = {
       profiles: {
         Row: {
           accessibility_needs: string[] | null
+          accessibility_needs_other: string | null
           avatar_url: string | null
           bio: string | null
           created_at: string
           deleted_at: string | null
           disability_types: string[] | null
+          disability_types_other: string | null
           discloses_disability: boolean
           full_name: string
           headline: string | null
@@ -780,11 +782,13 @@ export type Database = {
         }
         Insert: {
           accessibility_needs?: string[] | null
+          accessibility_needs_other?: string | null
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
           deleted_at?: string | null
           disability_types?: string[] | null
+          disability_types_other?: string | null
           discloses_disability?: boolean
           full_name: string
           headline?: string | null
@@ -801,11 +805,13 @@ export type Database = {
         }
         Update: {
           accessibility_needs?: string[] | null
+          accessibility_needs_other?: string | null
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
           deleted_at?: string | null
           disability_types?: string[] | null
+          disability_types_other?: string | null
           discloses_disability?: boolean
           full_name?: string
           headline?: string | null
