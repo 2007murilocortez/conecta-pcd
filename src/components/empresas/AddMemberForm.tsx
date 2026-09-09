@@ -37,7 +37,11 @@ export function AddMemberForm({ companyId }: { companyId: string }) {
     setPending(true);
     const result = await addCompanyMember(values);
     setPending(false);
-    setStatus(result.error ?? "Pessoa adicionada à equipe.");
+    setStatus(
+      result.error ??
+        result.data?.message ??
+        "Se houver uma conta com esse e-mail, a pessoa foi adicionada à equipe.",
+    );
     if (!result.error) {
       form.reset({ company_id: companyId, email: "" });
       router.refresh();

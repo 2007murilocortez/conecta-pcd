@@ -361,7 +361,9 @@ export async function getCompanyTeamPage(companyId: string) {
   };
 }
 
-export async function addCompanyMember(input: unknown): Promise<ActionResult> {
+export async function addCompanyMember(
+  input: unknown,
+): Promise<ActionResult<{ message: string }>> {
   const parsed = addCompanyMemberSchema.safeParse(input);
 
   if (!parsed.success) {
@@ -390,27 +392,30 @@ export async function addCompanyMember(input: unknown): Promise<ActionResult> {
     return { error: "Não foi possível buscar essa pessoa." };
   }
 
-  if (!profileId) {
-    return { error: "Não encontramos uma conta com esse e-mail." };
-  }
+  if (profileId) {
+    const { error } = await supabase.from("company_members").insert({
+      company_id: parsed.data.company_id,
+      profile_id: profileId,
+      member_role: "recrutador",
+      show_pcd_badge: false,
+    });
 
-  const { error } = await supabase.from("company_members").insert({
-    company_id: parsed.data.company_id,
-    profile_id: profileId,
-    member_role: "recrutador",
-    show_pcd_badge: false,
-  });
-
-  if (error) {
-    if (error.code === "23505") {
-      return { error: "Essa pessoa já faz parte da equipe." };
+    if (error) {
+      if (error.code === "23505") {
+        return { error: "Essa pessoa já faz parte da equipe." };
+      }
+      return { error: "Não foi possível adicionar a pessoa." };
     }
-    return { error: "Não foi possível adicionar a pessoa." };
   }
 
   revalidatePath(`/empresas/${parsed.data.company_id}`);
   revalidatePath(`/empresas/${parsed.data.company_id}/equipe`);
-  return {};
+  return {
+    data: {
+      message:
+        "Se houver uma conta com esse e-mail, a pessoa foi adicionada à equipe.",
+    },
+  };
 }
 
 export async function removeCompanyMember(input: unknown): Promise<ActionResult> {
