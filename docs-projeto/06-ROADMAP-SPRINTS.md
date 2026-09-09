@@ -18,15 +18,20 @@ Sprints de 2 semanas, com buffer nas últimas duas semanas para relatório/apres
 - [ ] Toggle de exposição de deficiência + necessidades de acessibilidade.
 - **Entregável:** usuário real consegue se cadastrar e montar o perfil completo.
 
-## Sprint 2 (29 set–12 out) — Vagas (núcleo do produto)
+## Sprint 2 (29 set–12 out) — Empresas (básico) e Vagas (núcleo do produto)
+- [ ] Fluxo "Criar página de empresa" (chama a RPC `create_company`) + página mínima
+      `/empresas/nova` — **pré-requisito técnico da vaga**, já que `jobs.company_id`
+      é `not null`. A página pública completa de empresa (perfil, avaliações, selo,
+      gestão de equipe) fica pro Sprint 3; aqui só o suficiente pra existir uma
+      empresa e a pessoa poder publicar vaga nela.
 - [ ] CRUD de vaga (lado empresa: criar/editar/encerrar).
 - [ ] Listagem + filtros (tipo, modalidade, **acessibilidade** em destaque).
 - [ ] Página de detalhe da vaga + candidatura.
 - [ ] Painel "minhas candidaturas" (candidato) e "candidaturas recebidas" (empresa) com mudança de status.
-- **Entregável:** fluxo completo de ponta a ponta — empresa publica, candidato se candidata, empresa muda status.
+- **Entregável:** fluxo completo de ponta a ponta — empresa é criada, publica vaga, candidato se candidata, empresa muda status.
 
-## Sprint 3 (13–26 out) — Empresas Inclusivas
-- [ ] Fluxo "Criar página de empresa" (chama a RPC `create_company`) + tela de gestão da equipe (`company_members`: adicionar/remover recrutador, badge `show_pcd_badge`).
+## Sprint 3 (13–26 out) — Empresas Inclusivas (completo)
+- [ ] Tela de gestão da equipe (`company_members`: adicionar/remover recrutador, badge `show_pcd_badge`) — a criação básica já saiu no Sprint 2, aqui entra a parte de time.
 - [ ] Perfil público de empresa (sobre, vagas abertas, recursos de acessibilidade).
 - [ ] Sistema de avaliação (`company_reviews`), com opção de anonimato.
 - [ ] Painel admin simples para conceder o selo `is_verified_inclusive` (mesmo que rudimentar — uma tela protegida por role admin).

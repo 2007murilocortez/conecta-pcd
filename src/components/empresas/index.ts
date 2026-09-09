@@ -1,1 +1,1 @@
-// TODO: componentes de empresas (Sprint 3)
+export { CompanyForm } from "@/components/empresas/CompanyForm";
