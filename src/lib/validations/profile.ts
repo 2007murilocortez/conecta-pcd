@@ -38,6 +38,7 @@ export const updateProfileSchema = z.object({
   accessibility_needs: z.array(z.enum(accessibilityNeedValues)),
   accessibility_needs_other: optionalText,
   disability_types_other: optionalText,
+  open_to_mentor: z.boolean(),
 })
   .refine(
     (data) =>

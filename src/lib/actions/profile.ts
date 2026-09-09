@@ -117,6 +117,7 @@ export async function updateProfile(
       accessibility_needs_other: parsed.data.accessibility_needs.includes("outro")
         ? emptyToNull(parsed.data.accessibility_needs_other)
         : null,
+      open_to_mentor: parsed.data.open_to_mentor,
       updated_at: new Date().toISOString(),
     })
     .eq("id", userId);
