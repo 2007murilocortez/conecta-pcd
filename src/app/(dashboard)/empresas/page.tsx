@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { CompanyRatings } from "@/components/empresas/CompanyRatings";
+import { VerifiedInclusiveBadge } from "@/components/empresas/VerifiedInclusiveBadge";
 import { listCompanies } from "@/lib/actions/company";
 import { ACCESSIBILITY_RESOURCES, labelFor } from "@/lib/constants/jobs";
 
@@ -22,7 +24,7 @@ export default async function EmpresasPage({
           <p>
             {onlyMine
               ? "Empresas em que você é dono ou recrutador."
-              : "Listagem simples. O perfil público completo chega no próximo sprint."}
+              : "Veja o selo, as notas e os recursos de acessibilidade antes de se candidatar."}
           </p>
         </div>
         <Button asChild>
@@ -61,10 +63,15 @@ export default async function EmpresasPage({
                 </Link>
               </h2>
               {company.is_verified_inclusive ? (
-                <p className="mt-1 text-sm font-medium text-secondary">
-                  Empresa inclusiva verificada
-                </p>
+                <div className="mt-2">
+                  <VerifiedInclusiveBadge />
+                </div>
               ) : null}
+              <CompanyRatings
+                ratingAvg={company.rating_avg}
+                accessibilityRatingAvg={company.accessibility_rating_avg}
+                reviewCount={company.review_count}
+              />
               {company.sector ? <p className="text-neutral-600">{company.sector}</p> : null}
               {company.accessibility_features && company.accessibility_features.length > 0 ? (
                 <ul className="mt-2 flex flex-wrap gap-2">

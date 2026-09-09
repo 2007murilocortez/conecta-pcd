@@ -13,6 +13,7 @@ const DASHBOARD_PREFIXES = [
   "/cursos",
   "/candidaturas",
   "/notificacoes",
+  "/admin",
 ];
 
 const AUTH_PATHS = ["/login", "/cadastro"];

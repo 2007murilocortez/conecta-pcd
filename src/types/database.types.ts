@@ -977,6 +977,10 @@ export type Database = {
         Args: { target_company_id: string }
         Returns: boolean
       }
+      profile_id_by_email: {
+        Args: { p_company_id: string; p_email: string }
+        Returns: string
+      }
     }
     Enums: {
       application_status:

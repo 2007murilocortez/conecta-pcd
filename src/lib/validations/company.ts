@@ -29,3 +29,38 @@ export const createCompanySchema = z.object({
 });
 
 export type CreateCompanyInput = z.infer<typeof createCompanySchema>;
+
+export const addCompanyMemberSchema = z.object({
+  company_id: z.string().uuid("Empresa inválida"),
+  email: z.string().trim().email("Informe um e-mail válido"),
+});
+
+export const removeCompanyMemberSchema = z.object({
+  company_id: z.string().uuid("Empresa inválida"),
+  member_id: z.string().uuid("Membro inválido"),
+});
+
+export const ownPcdBadgeSchema = z.object({
+  company_id: z.string().uuid("Empresa inválida"),
+  show_pcd_badge: z.boolean(),
+});
+
+export const companyReviewSchema = z.object({
+  id: z.string().uuid().optional(),
+  company_id: z.string().uuid("Empresa inválida"),
+  rating: z.number().int().min(1, "Dê uma nota de 1 a 5").max(5),
+  accessibility_rating: z.number().int().min(1, "Dê uma nota de 1 a 5").max(5),
+  comment: optionalText,
+  is_anonymous: z.boolean(),
+});
+
+export const companySealSchema = z.object({
+  company_id: z.string().uuid("Empresa inválida"),
+  is_verified_inclusive: z.boolean(),
+});
+
+export type AddCompanyMemberInput = z.infer<typeof addCompanyMemberSchema>;
+export type RemoveCompanyMemberInput = z.infer<typeof removeCompanyMemberSchema>;
+export type OwnPcdBadgeInput = z.infer<typeof ownPcdBadgeSchema>;
+export type CompanyReviewInput = z.infer<typeof companyReviewSchema>;
+export type CompanySealInput = z.infer<typeof companySealSchema>;
