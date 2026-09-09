@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ApplyForm } from "@/components/vagas/ApplyForm";
+import { JobViewTracker } from "@/components/vagas/JobViewTracker";
 import { AccessibilityChips } from "@/components/vagas/AccessibilityChips";
 import { JobManageActions } from "@/components/vagas/JobManageActions";
 import { getJobById } from "@/lib/actions/jobs";
@@ -29,6 +30,7 @@ export default async function VagaDetalhePage({
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12">
+      <JobViewTracker jobId={job.id} />
       <div>
         <p className="text-neutral-600">
           {company ? (

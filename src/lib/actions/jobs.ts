@@ -1,7 +1,14 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { APPLICATION_STATUSES, labelFor } from "@/lib/constants/jobs";
+import {
+  applicationStatusEmail,
+  sendTransactionalEmail,
+  siteUrl,
+} from "@/lib/email/resend";
+import { VIEWED_JOBS_COOKIE, parseViewedJobIds } from "@/lib/job-views";
 import { emptyToNull, getAuthedUser } from "@/lib/supabase/user";
 import {
   applyToJobSchema,
@@ -513,12 +520,39 @@ export async function updateApplicationStatus(
   });
 
   if (notificationError) {
-    return {
-      error:
-        "O status foi atualizado, mas a notificação para a pessoa candidata não pôde ser criada.",
-    };
+    console.error("[jobs] notificação de candidatura falhou", notificationError);
   }
 
+  const email = applicationStatusEmail({
+    jobTitle: job.title,
+    statusLabel,
+    siteUrl: siteUrl(),
+  });
+  await sendTransactionalEmail({
+    profileId: application.profile_id,
+    ...email,
+  });
+
   revalidatePath("/candidaturas");
+  revalidatePath("/notificacoes");
   return {};
+}
+
+export async function rememberJobView(jobId: string) {
+  const parsed = jobIdSchema.safeParse({ id: jobId });
+  if (!parsed.success) return;
+
+  const { userId } = await getAuthedUser();
+  if (!userId) return;
+
+  const store = await cookies();
+  const current = parseViewedJobIds(store.get(VIEWED_JOBS_COOKIE)?.value);
+  const next = [parsed.data.id, ...current.filter((id) => id !== parsed.data.id)].slice(0, 20);
+
+  store.set(VIEWED_JOBS_COOKIE, JSON.stringify(next), {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 30,
+  });
 }

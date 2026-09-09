@@ -1,6 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import {
+  mentorshipAcceptedEmail,
+  sendTransactionalEmail,
+  siteUrl,
+} from "@/lib/email/resend";
 import { getAuthedUser } from "@/lib/supabase/user";
 import {
   requestMentorshipSchema,
@@ -115,7 +120,20 @@ export async function requestMentorship(input: unknown): Promise<ActionResult> {
     return { error: "Não foi possível enviar o pedido." };
   }
 
+  const { error: notificationError } = await supabase.from("notifications").insert({
+    profile_id: parsed.data.mentor_id,
+    type: "mentorship_request",
+    title: "Novo pedido de mentoria",
+    body: "Alguém pediu mentoria a você.",
+    link: "/mentoria",
+  });
+
+  if (notificationError) {
+    console.error("[mentoria] notificação do pedido falhou", notificationError);
+  }
+
   revalidatePath("/mentoria");
+  revalidatePath("/notificacoes");
   return {};
 }
 
@@ -134,7 +152,7 @@ export async function respondMentorship(input: unknown): Promise<ActionResult> {
 
   const { data: current, error: currentError } = await supabase
     .from("mentorships")
-    .select("id, mentor_id, status")
+    .select("id, mentor_id, mentee_id, status")
     .eq("id", parsed.data.mentorship_id)
     .maybeSingle();
 
@@ -156,6 +174,35 @@ export async function respondMentorship(input: unknown): Promise<ActionResult> {
     if (error) {
       return { error: "Não foi possível aceitar o pedido." };
     }
+
+    const { data: mentorPublic } = await supabase
+      .from("profiles_public")
+      .select("full_name")
+      .eq("id", userId)
+      .maybeSingle();
+    const mentorName = mentorPublic?.full_name?.trim() || "Sua mentora ou mentor";
+
+    const { error: notificationError } = await supabase.from("notifications").insert({
+      profile_id: current.mentee_id,
+      type: "mentorship_accepted",
+      title: "Mentoria aceita",
+      body: `${mentorName} aceitou seu pedido de mentoria.`,
+      link: "/mentoria",
+    });
+
+    if (notificationError) {
+      console.error("[mentoria] notificação do aceite falhou", notificationError);
+    }
+
+    const email = mentorshipAcceptedEmail({
+      mentorName,
+      siteUrl: siteUrl(),
+      mentorProfileId: userId,
+    });
+    await sendTransactionalEmail({
+      profileId: current.mentee_id,
+      ...email,
+    });
   } else {
     const { error } = await supabase
       .from("mentorships")
@@ -169,6 +216,7 @@ export async function respondMentorship(input: unknown): Promise<ActionResult> {
   }
 
   revalidatePath("/mentoria");
+  revalidatePath("/notificacoes");
   return {};
 }
 

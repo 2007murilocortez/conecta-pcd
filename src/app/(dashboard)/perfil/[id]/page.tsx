@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ConnectButton } from "@/components/conexoes/ConnectButton";
+import { listCompletedCourses } from "@/lib/actions/courses";
 import { getPublicProfile } from "@/lib/actions/connections";
 import { ACCESSIBILITY_NEEDS, DISABILITY_TYPES } from "@/lib/constants/profile";
 import { ACCESSIBILITY_RESOURCES, labelFor } from "@/lib/constants/jobs";
@@ -14,7 +15,10 @@ export default async function PerfilPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const result = await getPublicProfile(id);
+  const [result, completed] = await Promise.all([
+    getPublicProfile(id),
+    listCompletedCourses(id),
+  ]);
 
   if (result.error || !result.data) {
     notFound();
@@ -58,6 +62,37 @@ export default async function PerfilPage({
         <section>
           <h2>Sobre</h2>
           <p className="whitespace-pre-wrap">{profile.bio}</p>
+        </section>
+      ) : null}
+
+      {completed.data.length > 0 ? (
+        <section>
+          <h2>Capacitação</h2>
+          <p className="text-neutral-600">
+            Cursos concluídos nesta plataforma. Nomes vêm do catálogo público;
+            a inscrição em si só é listada quando o status é concluído.
+          </p>
+          <ul className="mt-3 space-y-2">
+            {completed.data.map((course) => (
+              <li key={course.id} className="rounded-xl border border-border p-3">
+                <p className="font-medium">{course.title}</p>
+                {course.provider ? (
+                  <p className="text-sm text-neutral-600">{course.provider}</p>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : isSelf ? (
+        <section>
+          <h2>Capacitação</h2>
+          <p>
+            Cursos concluídos aparecem aqui e no seu perfil público. Comece em{" "}
+            <Link href="/cursos" className="text-primary underline underline-offset-4">
+              Cursos
+            </Link>
+            .
+          </p>
         </section>
       ) : null}
 

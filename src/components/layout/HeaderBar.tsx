@@ -14,16 +14,18 @@ import {
 const NAV_LINKS = [
   { href: "/feed", label: "Feed" },
   { href: "/vagas", label: "Vagas" },
+  { href: "/cursos", label: "Cursos" },
   { href: "/empresas", label: "Empresas" },
   { href: "/mentoria", label: "Mentoria" },
 ] as const;
 
 type HeaderBarProps = {
   isLoggedIn: boolean;
+  unreadCount: number;
   companies: { id: string; name: string }[];
 };
 
-export function HeaderBar({ isLoggedIn, companies }: HeaderBarProps) {
+export function HeaderBar({ isLoggedIn, unreadCount, companies }: HeaderBarProps) {
   const hasCompany = companies.length > 0;
 
   return (
@@ -69,9 +71,24 @@ export function HeaderBar({ isLoggedIn, companies }: HeaderBarProps) {
             </DropdownMenu>
           </div>
 
-          <Button variant="ghost" size="icon" aria-label="Notificações" asChild>
-            <Link href="/notificacoes">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={
+              unreadCount > 0
+                ? `Notificações, ${unreadCount} não lidas`
+                : "Notificações"
+            }
+            asChild
+          >
+            <Link href="/notificacoes" className="relative">
               <Bell />
+              {unreadCount > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute top-1 right-1 size-2 rounded-full bg-secondary"
+                />
+              ) : null}
             </Link>
           </Button>
 
