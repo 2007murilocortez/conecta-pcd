@@ -46,7 +46,7 @@ Leis citadas no relatório (e no site): Lei 8.213/1991 (Cotas) e Lei 13.146/2015
 
 ## 3. Mapa das telas (para o professor “ver o site”)
 
-Público (sem login): `/`, `/login`, `/cadastro`, `/sobre-acessibilidade`.
+Público (sem login): `/`, `/login`, `/cadastro`, `/sobre-acessibilidade`, `/apresentacao` (slides para amigos testarem o site).
 Logado (dashboard):
 
 - `/feed` — posts das conexões + vagas/cursos recomendados

@@ -16,6 +16,7 @@ const NAV_LINKS = [
   { href: "/vagas", label: "Vagas" },
   { href: "/cursos", label: "Cursos" },
   { href: "/empresas", label: "Empresas" },
+  { href: "/conexoes", label: "Conexões" },
   { href: "/mentoria", label: "Mentoria" },
 ] as const;
 
@@ -38,7 +39,7 @@ export function HeaderBar({ isLoggedIn, unreadCount, companies }: HeaderBarProps
           Conecta PCD
         </Link>
 
-        <nav aria-label="Principal" className="hidden md:block">
+        <nav aria-label="Principal" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {NAV_LINKS.map((item) => (
               <li key={item.href}>
@@ -54,7 +55,7 @@ export function HeaderBar({ isLoggedIn, unreadCount, companies }: HeaderBarProps
         </nav>
 
         <div className="flex items-center gap-1">
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" aria-label="Abrir menu de navegação">

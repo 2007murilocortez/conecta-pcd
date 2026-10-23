@@ -16,6 +16,14 @@ export function Footer() {
           <ul className="flex flex-col gap-2">
             <li>
               <Link
+                href="/apresentacao"
+                className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline"
+              >
+                O que dá para fazer no site
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/sobre-acessibilidade"
                 className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline"
               >

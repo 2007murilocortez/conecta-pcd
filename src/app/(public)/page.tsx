@@ -29,6 +29,9 @@ export default function LandingPage() {
               <Button asChild variant="outline">
                 <Link href="/vagas">Ver vagas</Link>
               </Button>
+              <Button asChild variant="ghost">
+                <Link href="/apresentacao">O que dá para fazer no site</Link>
+              </Button>
             </div>
           </div>
 
