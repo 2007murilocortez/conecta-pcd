@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
-import { AccessibilityToolbar } from "@/components/layout/AccessibilityToolbar";
+import { AccessibilityToolbarHost } from "@/components/layout/AccessibilityToolbarHost";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { VLibrasWidget } from "@/components/layout/VLibrasWidget";
@@ -33,7 +33,7 @@ export default function RootLayout({
             Pular para o conteúdo principal
           </a>
           <Header />
-          <AccessibilityToolbar />
+          <AccessibilityToolbarHost />
           <main id="conteudo-principal" className="flex-1">
             {children}
           </main>

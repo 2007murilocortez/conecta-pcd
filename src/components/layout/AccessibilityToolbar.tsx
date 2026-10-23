@@ -3,29 +3,81 @@
 import { useEffect, useState } from "react";
 import { Contrast, Minus, Plus, PersonStanding } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  saveAccessibilityPrefs,
+  type AccessibilityPrefs,
+} from "@/lib/actions/accessibility";
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 1.5;
 const STEP = 0.125;
+const STORAGE_KEY = "conecta-a11y";
 
-export function AccessibilityToolbar() {
-  const [fontScale, setFontScale] = useState(1);
-  const [highContrast, setHighContrast] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
+function applyToDocument(prefs: AccessibilityPrefs) {
+  const root = document.documentElement;
+  root.style.setProperty("--font-scale", String(prefs.font_scale));
+  root.classList.toggle("high-contrast", prefs.high_contrast);
+  root.classList.toggle("reduce-motion", prefs.reduce_motion);
+}
+
+function readLocal(): AccessibilityPrefs | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<AccessibilityPrefs>;
+    return {
+      font_scale: Number(parsed.font_scale) || 1,
+      high_contrast: Boolean(parsed.high_contrast),
+      reduce_motion: Boolean(parsed.reduce_motion),
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function AccessibilityToolbar({
+  initial,
+  persist,
+}: {
+  initial: AccessibilityPrefs;
+  persist: boolean;
+}) {
+  const [prefs, setPrefs] = useState<AccessibilityPrefs>(initial);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty("--font-scale", String(fontScale));
-    root.classList.toggle("high-contrast", highContrast);
-    root.classList.toggle("reduce-motion", reduceMotion);
-  }, [fontScale, highContrast, reduceMotion]);
+    const local = readLocal();
+    if (local && !persist) {
+      setPrefs(local);
+    }
+    setReady(true);
+  }, [persist]);
+
+  useEffect(() => {
+    if (!ready) return;
+    applyToDocument(prefs);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+    } catch {
+      // storage cheio ou privado — a toolbar ainda funciona na sessão.
+    }
+    if (persist) {
+      void saveAccessibilityPrefs(prefs);
+    }
+  }, [prefs, persist, ready]);
 
   function decreaseFont() {
-    setFontScale((current) => Math.max(MIN_SCALE, Number((current - STEP).toFixed(3))));
+    setPrefs((current) => ({
+      ...current,
+      font_scale: Math.max(MIN_SCALE, Number((current.font_scale - STEP).toFixed(3))),
+    }));
   }
 
   function increaseFont() {
-    setFontScale((current) => Math.min(MAX_SCALE, Number((current + STEP).toFixed(3))));
+    setPrefs((current) => ({
+      ...current,
+      font_scale: Math.min(MAX_SCALE, Number((current.font_scale + STEP).toFixed(3))),
+    }));
   }
 
   return (
@@ -40,7 +92,7 @@ export function AccessibilityToolbar() {
           variant="outline"
           size="icon"
           onClick={decreaseFont}
-          disabled={fontScale <= MIN_SCALE}
+          disabled={prefs.font_scale <= MIN_SCALE}
           aria-label="Diminuir tamanho da fonte"
         >
           <Minus />
@@ -50,14 +102,14 @@ export function AccessibilityToolbar() {
           className="inline-flex min-h-11 min-w-11 items-center justify-center text-sm font-medium"
           aria-live="polite"
         >
-          {Math.round(fontScale * 100)}%
+          {Math.round(prefs.font_scale * 100)}%
         </span>
         <Button
           type="button"
           variant="outline"
           size="icon"
           onClick={increaseFont}
-          disabled={fontScale >= MAX_SCALE}
+          disabled={prefs.font_scale >= MAX_SCALE}
           aria-label="Aumentar tamanho da fonte"
         >
           <Plus />
@@ -66,12 +118,14 @@ export function AccessibilityToolbar() {
 
         <Button
           type="button"
-          variant={highContrast ? "default" : "outline"}
+          variant={prefs.high_contrast ? "default" : "outline"}
           size="icon"
-          onClick={() => setHighContrast((current) => !current)}
-          aria-pressed={highContrast}
+          onClick={() =>
+            setPrefs((current) => ({ ...current, high_contrast: !current.high_contrast }))
+          }
+          aria-pressed={prefs.high_contrast}
           aria-label={
-            highContrast ? "Desativar alto contraste" : "Ativar alto contraste"
+            prefs.high_contrast ? "Desativar alto contraste" : "Ativar alto contraste"
           }
         >
           <Contrast />
@@ -79,12 +133,14 @@ export function AccessibilityToolbar() {
 
         <Button
           type="button"
-          variant={reduceMotion ? "default" : "outline"}
+          variant={prefs.reduce_motion ? "default" : "outline"}
           size="icon"
-          onClick={() => setReduceMotion((current) => !current)}
-          aria-pressed={reduceMotion}
+          onClick={() =>
+            setPrefs((current) => ({ ...current, reduce_motion: !current.reduce_motion }))
+          }
+          aria-pressed={prefs.reduce_motion}
           aria-label={
-            reduceMotion
+            prefs.reduce_motion
               ? "Permitir animações"
               : "Reduzir movimento e animações"
           }

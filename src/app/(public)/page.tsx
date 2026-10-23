@@ -12,8 +12,8 @@ export default function LandingPage() {
             </h1>
             <p className="mt-4 max-w-xl text-neutral-900">
               18,6 milhões de brasileiras e brasileiros declaram ter alguma
-              deficiência. A taxa de ocupação desse grupo é de 29,9%, contra
-              60,7% das pessoas sem deficiência. Plataformas genéricas não
+              deficiência. A taxa de ocupação desse grupo é de 26,6%, contra
+              60,7% das pessoas sem deficiência (IBGE/PNAD 2022). Plataformas genéricas não
               filtram por acessibilidade e não mostram se a empresa inclui de
               fato, ou só no papel.
             </p>
@@ -88,6 +88,47 @@ export default function LandingPage() {
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-16">
+        <h2 className="text-primary">O que a pesquisa pediu e o site entrega</h2>
+        <p className="mt-4 max-w-3xl">
+          Levantamento com 14 pessoas e 17 empresários: achar vaga adequada e o
+          preconceito empataram como maiores barreiras (28,6% cada). Libras foi
+          o recurso mais pedido (78,6%). 92,9% teriam interesse em cursos no
+          aplicativo. Empresas citaram, em primeiro lugar, falta de informação
+          sobre inclusão (41,2%).
+        </p>
+        <ul className="mt-6 grid gap-6 md:grid-cols-3">
+          <li>
+            <h3>Vaga com acessibilidade visível</h3>
+            <p>
+              Filtro em destaque por Libras, leitor de tela, intérprete e horário
+              flexível — não um detalhe escondido no fim do anúncio.
+            </p>
+          </li>
+          <li>
+            <h3>Empresa que se mostra de verdade</h3>
+            <p>
+              Avaliação de quem já passou por lá (pode ser anônima) e selo
+              inclusivo só com validação, não autodeclaração.
+            </p>
+          </li>
+          <li>
+            <h3>Rede, mentoria e cursos</h3>
+            <p>
+              Conexões, mentoria sem chat (contato no perfil após o aceite) e
+              catálogo de cursos oficiais gratuitos.
+            </p>
+          </li>
+        </ul>
+        <p className="mb-0">
+          Detalhe técnico e legal:{" "}
+          <Link href="/sobre-acessibilidade" className="text-primary underline underline-offset-4">
+            sobre o site e a acessibilidade
+          </Link>
+          .
+        </p>
       </section>
 
       <section className="border-t border-border bg-neutral-100">

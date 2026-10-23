@@ -53,7 +53,25 @@ export function Footer() {
           >
             VLibras
           </a>
-          , ferramenta oficial do governo brasileiro.
+          , ferramenta oficial do governo brasileiro. O produto se apoia na{" "}
+          <a
+            href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm"
+            className="text-primary underline underline-offset-4"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Lei 13.146/2015
+          </a>{" "}
+          (LBI) e na{" "}
+          <a
+            href="https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
+            className="text-primary underline underline-offset-4"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Lei 8.213/1991
+          </a>{" "}
+          (Cotas).
         </p>
       </div>
     </footer>
