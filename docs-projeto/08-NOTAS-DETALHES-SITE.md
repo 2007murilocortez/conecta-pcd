@@ -14,7 +14,7 @@ oficial (Anexos 1–4 do regulamento). Usar como material de “mais detalhes so
 | Agosto | Tema + questionário | Pesquisa com 14 pessoas e 17 empresários (Anexo 2) |
 | Setembro | Aplicar pesquisa e começar o site | Auth, perfil, toolbar, VLibras |
 | Outubro | Finalizar o site + parte escrita | Vagas, empresas, networking, cursos, recomendações, notificações |
-| Novembro | Banner e apresentação | Ainda falta Sprint 6 (polimento/QA) e o pôster |
+| Novembro | Banner e apresentação | Contas da demo prontas (ver `09-DEMO-APRESENTACAO.md`); ainda falta pôster |
 | Dezembro | Entrega | Relatório final + vídeo de backup |
 
 ## 2. Achados da pesquisa → tela do site
@@ -62,7 +62,7 @@ Stack: Next.js (App Router) + TypeScript + Tailwind + shadcn/ui + Supabase (Post
 ## 4. O que ainda falta para “site pronto de demo” (Sprint 6)
 
 - Checklist WCAG 2.1 AA em toda tela + prints Lighthouse/axe ≥ 90
-- Seed grande (empresas, vagas, avaliações) para a demo não parecer vazia
+- Seed da apresentação aplicado (`supabase/seed-demo.sql`): Ana, Carla, Paulo, vagas, conexões, cursos
 - Revisão mobile (a pesquisa aponta uso de celular)
 - Aplicar as duas migrations de policy que ainda podem faltar no banco (conexão/imagem do feed; cursos concluídos públicos; notificação de mentoria)
 - `NEXT_PUBLIC_SITE_URL` e callback do Supabase em produção

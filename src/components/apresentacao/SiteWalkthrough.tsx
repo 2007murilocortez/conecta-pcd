@@ -10,10 +10,10 @@ const SLIDES = [
     body: "É uma rede profissional para pessoa com deficiência — e para empresa que quer publicar vaga acessível de verdade. Site grátis: conecta-pcd.vercel.app",
   },
   {
-    title: "1. Cria a conta",
-    body: "Vai em Criar perfil. Entra com e-mail e senha ou Google. Não tem “tipo de conta”: todo mundo é usuário. Se depois você for de uma empresa, cria a página dela por dentro.",
-    href: "/cadastro",
-    hrefLabel: "Criar perfil",
+    title: "1. Entra com a conta da demo",
+    body: "Na apresentação ninguém cria conta. Entra em /login com ana.souza@conectapcd.dev e senha Conecta2026. Uma conta só: depois, se for da empresa, cria a página por dentro.",
+    href: "/login",
+    hrefLabel: "Entrar com a Ana",
   },
   {
     title: "2. Monta o perfil",
@@ -71,9 +71,9 @@ const SLIDES = [
   },
   {
     title: "Agora é só entrar e clicar",
-    body: "Manda este link para o grupo: conecta-pcd.vercel.app/apresentacao. Para usar de verdade, cria o perfil e testa uma vaga. Qualquer dúvida, chama o Murilo.",
-    href: "/cadastro",
-    hrefLabel: "Começar agora",
+    body: "Login da Ana: ana.souza@conectapcd.dev / Conecta2026. Recrutadora: carla.mendes@conectapcd.dev / a mesma senha. Qualquer dúvida, chama o Murilo.",
+    href: "/login",
+    hrefLabel: "Abrir o login",
   },
 ] as const;
 

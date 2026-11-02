@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { getGoogleAuthUrl, signInAction } from "@/lib/actions/auth";
+import { DEMO_ACCOUNTS, DEMO_PASSWORD } from "@/lib/demo-accounts";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 
 export function LoginForm() {
@@ -139,6 +140,33 @@ export function LoginForm() {
             Criar perfil
           </Link>
         </p>
+
+        <div className="rounded-md border border-border p-3">
+          <p className="mb-2 text-sm font-medium">Contas da apresentação (senha {DEMO_PASSWORD})</p>
+          <ul className="m-0 flex list-none flex-col gap-2 p-0">
+            {DEMO_ACCOUNTS.map((account) => (
+              <li key={account.id}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-auto w-full justify-start whitespace-normal py-2 text-left"
+                  onClick={() => {
+                    form.setValue("email", account.email);
+                    form.setValue("password", DEMO_PASSWORD);
+                    setFormError(null);
+                  }}
+                >
+                  <span>
+                    <strong>{account.name}</strong>
+                    <span className="block text-xs font-normal text-neutral-600">
+                      {account.email} — {account.role}
+                    </span>
+                  </span>
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </form>
     </Form>
   );
