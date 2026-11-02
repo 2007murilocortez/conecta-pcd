@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
 import {
   Form,
   FormControl,
@@ -15,7 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/lib/supabase/client";
+import { authErrorMessage } from "@/lib/auth-errors";
+import { getGoogleAuthUrl, signUpAction } from "@/lib/actions/auth";
 import { signUpSchema, type SignUpInput } from "@/lib/validations/auth";
 
 export function SignUpForm() {
@@ -38,24 +39,16 @@ export function SignUpForm() {
     setInfo(null);
     setPending(true);
 
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-      options: {
-        data: { full_name: values.fullName },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    const result = await signUpAction(values);
 
     setPending(false);
 
-    if (error) {
-      setFormError(error.message);
+    if (result.error) {
+      setFormError(result.error);
       return;
     }
 
-    if (!data.session) {
+    if (result.needsEmailConfirmation) {
       setInfo(
         "Conta criada. Verifique seu e-mail para confirmar o cadastro e depois entre na plataforma.",
       );
@@ -68,17 +61,14 @@ export function SignUpForm() {
 
   async function continueWithGoogle() {
     setFormError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    const result = await getGoogleAuthUrl();
 
-    if (error) {
-      setFormError(error.message);
+    if (result.url) {
+      window.location.href = result.url;
+      return;
     }
+
+    setFormError(result.error ?? authErrorMessage("Load failed"));
   }
 
   return (
@@ -137,6 +127,9 @@ export function SignUpForm() {
                   />
                 </FormControl>
                 <FormMessage />
+                <FieldDescription>
+                  Use um e-mail real. teste@gmail.com é bloqueado.
+                </FieldDescription>
               </Field>
             </FormItem>
           )}

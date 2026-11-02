@@ -442,7 +442,33 @@ de aplicação, que entra no Sprint 1 junto de autenticação:
    secret): busca `profiles` com `scheduled_deletion_at <= now()` e chama `auth.admin.deleteUser`
    pra cada uma.
 
-## 12. Como isso foi versionado no Supabase
+## 12. Convenção obrigatória para qualquer RPC nova restrita a `authenticated`
+
+Toda função `security definer` que deve ser chamável só por usuário logado precisa,
+na MESMA migration que a cria, terminar com estas três linhas (nessa ordem) — não
+basta `revoke ... from public`, é preciso revogar de `anon` explicitamente também,
+porque o Supabase concede `EXECUTE` a `anon` e `authenticated` por privilégio padrão
+no momento da criação da função, e isso não é herdado via `PUBLIC`:
+
+```sql
+revoke execute on function public.nome_da_funcao(tipos, dos, parametros) from anon;
+revoke execute on function public.nome_da_funcao(tipos, dos, parametros) from public;
+grant execute on function public.nome_da_funcao(tipos, dos, parametros) to authenticated;
+```
+
+Depois de aplicar, confirme com esta query (nunca confie só no `get_advisors`, ele
+pode não refletir a mudança na hora — confirme direto na fonte):
+
+```sql
+select grantee, privilege_type
+from information_schema.routine_privileges
+where routine_name = 'nome_da_funcao';
+```
+
+Só `postgres`, `authenticated` e `service_role` devem aparecer — se `anon` aparecer,
+a função está exposta a quem não fez login.
+
+## 13. Como isso foi versionado no Supabase
 
 Aplicado via MCP em migrations sequenciais (`0001_enums` até `0015_performance_hardening`) —
 histórico completo consultável com `Supabase:list_migrations`. Não existe mais um script

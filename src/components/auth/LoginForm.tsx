@@ -15,7 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/lib/supabase/client";
+import { authErrorMessage } from "@/lib/auth-errors";
+import { getGoogleAuthUrl, signInAction } from "@/lib/actions/auth";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 
 export function LoginForm() {
@@ -38,16 +39,12 @@ export function LoginForm() {
     setFormError(null);
     setPending(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email: values.email,
-      password: values.password,
-    });
+    const result = await signInAction(values);
 
     setPending(false);
 
-    if (error) {
-      setFormError("E-mail ou senha inválidos.");
+    if (result.error) {
+      setFormError(result.error);
       return;
     }
 
@@ -57,17 +54,14 @@ export function LoginForm() {
 
   async function continueWithGoogle() {
     setFormError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    const result = await getGoogleAuthUrl();
 
-    if (error) {
-      setFormError(error.message);
+    if (result.url) {
+      window.location.href = result.url;
+      return;
     }
+
+    setFormError(result.error ?? authErrorMessage("Load failed"));
   }
 
   return (

@@ -9,9 +9,11 @@ import { VLibrasWidget } from "@/components/layout/VLibrasWidget";
 import "./globals.css";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-inter",
   display: "swap",
+  // Sem isso o fallback do next/font encolhe o espaço e o texto cola no Safari/Chrome.
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
