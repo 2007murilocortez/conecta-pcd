@@ -26,13 +26,8 @@ export function LogoutButton() {
 export function LogoutMenuItem() {
   return (
     <form action={signOutAction}>
-      <DropdownMenuItem
-        onSelect={(event) => {
-          event.preventDefault();
-          event.currentTarget.closest("form")?.requestSubmit();
-        }}
-      >
-        Sair
+      <DropdownMenuItem asChild>
+        <button type="submit">Sair</button>
       </DropdownMenuItem>
     </form>
   );
