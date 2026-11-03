@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { authErrorMessage } from "@/lib/auth-errors";
@@ -110,6 +111,12 @@ export async function signInAction(input: LoginInput): Promise<AuthActionResult>
   }
 
   return { ok: true };
+}
+
+export async function signOutAction() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
 }
 
 export async function getGoogleAuthUrl(): Promise<AuthActionResult> {

@@ -23,7 +23,7 @@ const SLIDES = [
   },
   {
     title: "3. Busca vaga (o coração do site)",
-    body: "Em Vagas o filtro que importa é acessibilidade: Libras na entrevista, leitor de tela, intérprete, horário flexível. Abre a vaga, lê os requisitos e se candidata.",
+    body: "Em Vagas o filtro que importa é acessibilidade: Libras, leitor de tela, intérprete, horário flexível. As vagas da demo são cargos reais do mercado PcD: administrativo, atendimento, caixa, recepção, estoque e digitação.",
     href: "/vagas",
     hrefLabel: "Ver vagas",
   },
@@ -65,13 +65,13 @@ const SLIDES = [
   },
   {
     title: "10. Acessibilidade não é extra",
-    body: "Canto inferior esquerdo: aumenta a fonte, alto contraste e menos animação. Em toda página tem VLibras (Libras). Dá para usar só com teclado — Tab, Enter, e nesta apresentação as setas.",
+    body: "Canto inferior esquerdo: aumenta a fonte, alto contraste, menos animação e o botão de ouvir o texto (uma voz lê o que está escrito). Em toda página tem VLibras (Libras). Dá para usar só com teclado — Tab, Enter, e nesta apresentação as setas.",
     href: "/sobre-acessibilidade",
     hrefLabel: "Como o site é acessível",
   },
   {
     title: "Agora é só entrar e clicar",
-    body: "Login da Ana: ana.souza@conectapcd.dev / Conecta2026. Recrutadora: carla.mendes@conectapcd.dev / a mesma senha. Qualquer dúvida, chama o Murilo.",
+    body: "Login da Ana: ana.souza@conectapcd.dev / Conecta2026. Para trocar de conta, use Sair no topo e entre como Carla (carla.mendes@conectapcd.dev). Qualquer dúvida, chama o Murilo.",
     href: "/login",
     hrefLabel: "Abrir o login",
   },

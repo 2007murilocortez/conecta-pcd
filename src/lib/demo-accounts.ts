@@ -12,7 +12,7 @@ export const DEMO_ACCOUNTS = [
     id: "carla",
     name: "Carla Mendes",
     email: "carla.mendes@conectapcd.dev",
-    role: "Recrutadora da Inclusiva Tech",
+    role: "Recrutadora da Rede Viva Mais",
     shows: "Página da empresa, vagas publicadas e status da candidatura da Ana",
   },
   {

@@ -125,14 +125,16 @@ select public.seed_demo_auth_user(
   'Bruno Costa'
 );
 
+-- Perfis, empresas e vagas da demo: cargos comuns no mercado PcD
+-- (administrativo, atendimento, caixa, recepção, estoque, digitação).
 -- ---------------------------------------------------------------------------
 -- Perfis (headline precisa existir senão o middleware manda de volta ao onboarding)
 -- ---------------------------------------------------------------------------
 update public.profiles
 set
   full_name = 'Ana Souza',
-  headline = 'Pessoa desenvolvedora front-end',
-  bio = 'Busco vaga remota com leitor de tela e processo seletivo acessível. Trabalho com HTML, CSS e React.',
+  headline = 'Auxiliar administrativa',
+  bio = 'Busco vaga administrativa com leitor de tela e horário flexível. Tenho prática com planilha, atendimento ao público e organização de documentos.',
   location_city = 'São Paulo',
   location_state = 'SP',
   discloses_disability = true,
@@ -146,8 +148,8 @@ where id = 'a1111111-1111-4111-8111-111111111111';
 update public.profiles
 set
   full_name = 'Carla Mendes',
-  headline = 'Recrutadora de tecnologia inclusiva',
-  bio = 'Publico vagas com os recursos de acessibilidade escritos na descrição — não é texto genérico.',
+  headline = 'Recrutadora de inclusão',
+  bio = 'Publico vagas de administrativo, atendimento e operação com os recursos de acessibilidade escritos na descrição — não é texto genérico.',
   location_city = 'Campinas',
   location_state = 'SP',
   discloses_disability = false,
@@ -161,8 +163,8 @@ where id = 'a2222222-2222-4222-8222-222222222222';
 update public.profiles
 set
   full_name = 'Paulo Ribeiro',
-  headline = 'Pessoa engenheira de software e mentor',
-  bio = 'Disponível para mentoria sobre carreira em tecnologia e adaptação do ambiente de trabalho.',
+  headline = 'Coordenador administrativo e mentor',
+  bio = 'Disponível para mentoria sobre primeiro emprego, rotina de escritório e adaptação do ambiente de trabalho.',
   location_city = 'Belo Horizonte',
   location_state = 'MG',
   discloses_disability = true,
@@ -176,8 +178,8 @@ where id = 'a3333333-3333-4333-8333-333333333333';
 update public.profiles
 set
   full_name = 'Bruno Costa',
-  headline = 'Pessoa analista de dados',
-  bio = 'Quero conectar com outras pessoas da área e acompanhar vagas com horário flexível.',
+  headline = 'Auxiliar de estoque',
+  bio = 'Quero conectar com outras pessoas da área e acompanhar vagas de estoque ou caixa com horário flexível.',
   location_city = 'Recife',
   location_state = 'PE',
   discloses_disability = true,
@@ -194,25 +196,25 @@ insert into public.educations (
   (
     'e1111111-1111-4111-8111-111111111111',
     'a1111111-1111-4111-8111-111111111111',
-    'USP',
-    'Sistemas de Informação',
-    'Graduação',
-    '2019-02-01',
-    '2023-12-15',
+    'ETEC São Paulo',
+    'Técnico em Administração',
+    'Técnico',
+    '2020-02-01',
+    '2022-12-15',
     false
   ),
   (
     'e3333333-3333-4333-8333-333333333333',
     'a3333333-3333-4333-8333-333333333333',
     'UFMG',
-    'Engenharia de Computação',
+    'Administração',
     'Graduação',
     '2014-02-01',
     '2018-12-15',
     false
   )
 on conflict (id) do update
-set institution = excluded.institution, course = excluded.course;
+set institution = excluded.institution, course = excluded.course, level = excluded.level;
 
 insert into public.experiences (
   id, profile_id, company_name, role_title, description, start_date, end_date, is_current
@@ -220,9 +222,9 @@ insert into public.experiences (
   (
     'd1111111-1111-4111-8111-111111111111',
     'a1111111-1111-4111-8111-111111111111',
-    'Cooperativa Digital',
-    'Pessoa desenvolvedora front-end',
-    'Interfaces com foco em HTML semântico e leitores de tela.',
+    'Escritório São Lucas',
+    'Auxiliar administrativa',
+    'Atendimento ao público, organização de documentos e planilha. Trabalho com leitor de tela.',
     '2024-01-10',
     null,
     true
@@ -230,33 +232,57 @@ insert into public.experiences (
   (
     'd2222222-2222-4222-8222-222222222222',
     'a2222222-2222-4222-8222-222222222222',
-    'Inclusiva Tech',
+    'Rede Viva Mais',
     'Pessoa recrutadora',
     'Processo seletivo com intérprete e vaga descrita com acessibilidade.',
     '2022-03-01',
     null,
     true
+  ),
+  (
+    'd3333333-3333-4333-8333-333333333333',
+    'a3333333-3333-4333-8333-333333333333',
+    'Prefeitura de Belo Horizonte',
+    'Coordenador administrativo',
+    'Rotina de escritório, equipe administrativa e adaptação do posto de trabalho.',
+    '2019-03-01',
+    null,
+    true
   )
 on conflict (id) do update
-set company_name = excluded.company_name, role_title = excluded.role_title;
+set company_name = excluded.company_name, role_title = excluded.role_title, description = excluded.description;
 
 insert into public.skills (id, name) values
-  ('b0000000-0000-4000-8000-000000000001', 'HTML'),
-  ('b0000000-0000-4000-8000-000000000002', 'CSS'),
-  ('b0000000-0000-4000-8000-000000000003', 'React'),
-  ('b0000000-0000-4000-8000-000000000004', 'Acessibilidade web'),
+  ('b0000000-0000-4000-8000-000000000001', 'Excel'),
+  ('b0000000-0000-4000-8000-000000000002', 'Atendimento'),
+  ('b0000000-0000-4000-8000-000000000003', 'Organização'),
+  ('b0000000-0000-4000-8000-000000000004', 'Comunicação escrita'),
   ('b0000000-0000-4000-8000-000000000005', 'Recrutamento'),
-  ('b0000000-0000-4000-8000-000000000006', 'Mentoria')
+  ('b0000000-0000-4000-8000-000000000006', 'Mentoria'),
+  ('b0000000-0000-4000-8000-000000000007', 'Operação de caixa'),
+  ('b0000000-0000-4000-8000-000000000008', 'Estoque'),
+  ('b0000000-0000-4000-8000-000000000009', 'Digitação')
 on conflict (id) do update set name = excluded.name;
+
+delete from public.profile_skills
+where profile_id in (
+  'a1111111-1111-4111-8111-111111111111',
+  'a2222222-2222-4222-8222-222222222222',
+  'a3333333-3333-4333-8333-333333333333',
+  'a4444444-4444-4444-8444-444444444444'
+);
 
 insert into public.profile_skills (profile_id, skill_id) values
   ('a1111111-1111-4111-8111-111111111111', 'b0000000-0000-4000-8000-000000000001'),
   ('a1111111-1111-4111-8111-111111111111', 'b0000000-0000-4000-8000-000000000002'),
   ('a1111111-1111-4111-8111-111111111111', 'b0000000-0000-4000-8000-000000000003'),
   ('a1111111-1111-4111-8111-111111111111', 'b0000000-0000-4000-8000-000000000004'),
+  ('a2222222-2222-4222-8222-222222222222', 'b0000000-0000-4000-8000-000000000002'),
   ('a2222222-2222-4222-8222-222222222222', 'b0000000-0000-4000-8000-000000000005'),
-  ('a3333333-3333-4333-8333-333333333333', 'b0000000-0000-4000-8000-000000000003'),
-  ('a3333333-3333-4333-8333-333333333333', 'b0000000-0000-4000-8000-000000000006')
+  ('a3333333-3333-4333-8333-333333333333', 'b0000000-0000-4000-8000-000000000002'),
+  ('a3333333-3333-4333-8333-333333333333', 'b0000000-0000-4000-8000-000000000006'),
+  ('a4444444-4444-4444-8444-444444444444', 'b0000000-0000-4000-8000-000000000003'),
+  ('a4444444-4444-4444-8444-444444444444', 'b0000000-0000-4000-8000-000000000008')
 on conflict do nothing;
 
 insert into public.companies (
@@ -264,10 +290,10 @@ insert into public.companies (
 ) values
   (
     'c1111111-1111-4111-8111-111111111111',
-    'Inclusiva Tech',
-    'Empresa de software que descreve recurso de acessibilidade em cada vaga (Libras, leitor de tela, horário flexível).',
-    'Tecnologia',
-    '51-200',
+    'Rede Viva Mais',
+    'Rede de supermercados. Descreve o recurso de acessibilidade em cada vaga (leitor de tela, horário flexível, intérprete na entrevista).',
+    'Varejo',
+    '201-1000',
     'a2222222-2222-4222-8222-222222222222',
     true,
     array['leitor_de_tela', 'libras', 'horario_flexivel', 'interprete_entrevista']
@@ -275,23 +301,50 @@ insert into public.companies (
   (
     'c2222222-2222-4222-8222-222222222222',
     'Central de Atendimento Norte',
-    'Operação de atendimento. Ainda sem selo de empresa inclusiva — serve para contrastar com a Inclusiva Tech.',
+    'Operação de teleatendimento. Ainda sem selo de empresa inclusiva — serve para contrastar com a Rede Viva Mais.',
     'Serviços',
     '201-1000',
     'a2222222-2222-4222-8222-222222222222',
     false,
     array['horario_flexivel']
+  ),
+  (
+    'c3333333-3333-4333-8333-333333333333',
+    'Clínica Horizonte',
+    'Clínica de especialidades. Recepção e apoio administrativo com intérprete de Libras na entrevista.',
+    'Saúde',
+    '51-200',
+    'a2222222-2222-4222-8222-222222222222',
+    false,
+    array['libras', 'interprete_entrevista', 'horario_flexivel']
   )
 on conflict (id) do update
 set
   name = excluded.name,
   description = excluded.description,
-  is_verified_inclusive = excluded.is_verified_inclusive;
+  sector = excluded.sector,
+  size = excluded.size,
+  is_verified_inclusive = excluded.is_verified_inclusive,
+  accessibility_features = excluded.accessibility_features;
 
 insert into public.company_members (id, company_id, profile_id, member_role, show_pcd_badge) values
   (
     'aa222222-2222-4222-8222-222222222222',
     'c1111111-1111-4111-8111-111111111111',
+    'a2222222-2222-4222-8222-222222222222',
+    'dono',
+    false
+  ),
+  (
+    'aa222aaa-2222-4222-8222-222222222222',
+    'c2222222-2222-4222-8222-222222222222',
+    'a2222222-2222-4222-8222-222222222222',
+    'dono',
+    false
+  ),
+  (
+    'aa333aaa-3333-4333-8333-333333333333',
+    'c3333333-3333-4333-8333-333333333333',
     'a2222222-2222-4222-8222-222222222222',
     'dono',
     false
@@ -307,65 +360,134 @@ insert into public.jobs (
     '11111111-1111-4111-8111-111111111111',
     'c1111111-1111-4111-8111-111111111111',
     'a2222222-2222-4222-8222-222222222222',
-    'Pessoa desenvolvedora front-end',
-    'Time de produto. O processo seletivo tem entrevista com leitor de tela e, se precisar, intérprete de Libras. Trabalho remoto.',
-    'HTML, CSS, React e prática com acessibilidade web (WCAG).',
+    'Auxiliar administrativo',
+    'Rotina de escritório na sede: organização de documentos, planilha, atendimento interno e apoio à equipe. O processo seletivo descreve leitor de tela de verdade e horário flexível. Modalidade híbrida em São Paulo.',
+    'Excel, organização e comunicação escrita. Experiência com atendimento é um plus.',
     'CLT',
-    'remoto',
-    null,
-    null,
-    6500,
-    9000,
+    'hibrido',
+    'São Paulo',
+    'SP',
+    1800,
+    2400,
     true,
     'aberta',
-    array['leitor_de_tela', 'libras', 'horario_flexivel']
+    array['leitor_de_tela', 'horario_flexivel']
   ),
   (
     '12222222-2222-4222-8222-222222222222',
-    'c1111111-1111-4111-8111-111111111111',
+    'c2222222-2222-4222-8222-222222222222',
     'a2222222-2222-4222-8222-222222222222',
-    'Pessoa analista de atendimento',
-    'Atendimento a clientes com horário flexível e intérprete na entrevista.',
-    'Boa comunicação escrita. Experiência com SAC é um plus.',
+    'Pessoa atendente de teleatendimento',
+    'Atendimento a clientes por telefone e chat, com horário flexível e intérprete de Libras na entrevista.',
+    'Atendimento, comunicação escrita e boa dicção. Experiência com SAC é um plus.',
     'CLT',
     'hibrido',
     'Campinas',
     'SP',
-    2800,
-    3500,
+    1800,
+    2300,
     true,
     'aberta',
-    array['interprete_entrevista', 'horario_flexivel']
+    array['interprete_entrevista', 'horario_flexivel', 'libras']
   ),
   (
     '13333333-3333-4333-8333-333333333333',
-    'c2222222-2222-4222-8222-222222222222',
+    'c1111111-1111-4111-8111-111111111111',
     'a2222222-2222-4222-8222-222222222222',
-    'Estágio em dados',
-    'Apoio à equipe de relatórios. Modalidade presencial.',
-    'Noções de planilha e vontade de aprender SQL.',
-    'Estagio',
+    'Operador de caixa',
+    'Frente de loja em supermercado. Posto com espaço para cadeira de rodas, pausas combinadas e horário flexível. Treinamento no sistema de caixa no primeiro mês.',
+    'Operação de caixa, atendimento ao público e organização. Experiência em varejo é um plus.',
+    'CLT',
     'presencial',
-    'Recife',
-    'PE',
-    1200,
-    1500,
+    'São Paulo',
+    'SP',
+    1600,
+    2000,
     true,
     'aberta',
     array['horario_flexivel']
+  ),
+  (
+    '14444444-4444-4444-8444-444444444444',
+    'c3333333-3333-4333-8333-333333333333',
+    'a2222222-2222-4222-8222-222222222222',
+    'Recepcionista',
+    'Recepção da clínica: acolher pacientes, agendar consultas e orientar o fluxo da recepção. Entrevista com intérprete de Libras, se precisar.',
+    'Atendimento, organização e comunicação escrita. Noções de agenda são um plus.',
+    'CLT',
+    'presencial',
+    'São Paulo',
+    'SP',
+    1700,
+    2200,
+    true,
+    'aberta',
+    array['libras', 'interprete_entrevista']
+  ),
+  (
+    '15555555-5555-4555-8555-555555555555',
+    'c1111111-1111-4111-8111-111111111111',
+    'a2222222-2222-4222-8222-222222222222',
+    'Auxiliar de estoque',
+    'Conferência de mercadoria, organização de prateleira e apoio à reposição. Corredor largo, posto sentado quando necessário e horário flexível.',
+    'Estoque, organização e atenção a conferência. Experiência em supermercado ou depósito é um plus.',
+    'CLT',
+    'presencial',
+    'São Paulo',
+    'SP',
+    1600,
+    2100,
+    true,
+    'aberta',
+    array['horario_flexivel']
+  ),
+  (
+    '16666666-6666-4666-8666-666666666666',
+    'c2222222-2222-4222-8222-222222222222',
+    'a2222222-2222-4222-8222-222222222222',
+    'Digitador',
+    'Digitação de cadastros e lançamento em planilha, em home office. Sistema compatível com leitor de tela e alto contraste.',
+    'Digitação, Excel e comunicação escrita. Boa pontuação em digitação é um plus.',
+    'CLT',
+    'remoto',
+    null,
+    null,
+    1700,
+    2200,
+    true,
+    'aberta',
+    array['leitor_de_tela', 'alto_contraste']
   )
 on conflict (id) do update
-set title = excluded.title, description = excluded.description, status = 'aberta';
+set
+  company_id = excluded.company_id,
+  posted_by = excluded.posted_by,
+  title = excluded.title,
+  description = excluded.description,
+  requirements = excluded.requirements,
+  type = excluded.type,
+  work_mode = excluded.work_mode,
+  location_city = excluded.location_city,
+  location_state = excluded.location_state,
+  salary_min = excluded.salary_min,
+  salary_max = excluded.salary_max,
+  salary_visible = excluded.salary_visible,
+  status = 'aberta',
+  accessibility_resources = excluded.accessibility_resources;
 
 insert into public.applications (id, job_id, profile_id, cover_letter, status) values
   (
     'aa111111-1111-4111-8111-111111111111',
     '11111111-1111-4111-8111-111111111111',
     'a1111111-1111-4111-8111-111111111111',
-    'Tenho prática com HTML semântico e leitores de tela. Gostaria de seguir no processo.',
+    'Tenho prática com Excel, atendimento e organização de documentos. Trabalho com leitor de tela e gostaria de seguir no processo.',
     'em_analise'
   )
-on conflict (id) do update set status = excluded.status;
+on conflict (id) do update
+set
+  job_id = excluded.job_id,
+  cover_letter = excluded.cover_letter,
+  status = excluded.status;
 
 insert into public.company_reviews (
   id, company_id, profile_id, rating, accessibility_rating, comment, is_anonymous
@@ -376,7 +498,7 @@ insert into public.company_reviews (
     'a1111111-1111-4111-8111-111111111111',
     5,
     5,
-    'A vaga descrevia leitor de tela de verdade, não só um selo genérico.',
+    'A vaga de auxiliar administrativo descrevia leitor de tela de verdade, não só um selo genérico.',
     false
   )
 on conflict (id) do update set comment = excluded.comment;
@@ -416,7 +538,7 @@ insert into public.posts (id, profile_id, content, created_at) values
   (
     'f3333333-3333-4333-8333-333333333333',
     'a3333333-3333-4333-8333-333333333333',
-    'Abri agenda de mentoria para quem está buscando a primeira vaga em tecnologia com acessibilidade de verdade.',
+    'Abri agenda de mentoria para quem está buscando o primeiro emprego — administrativo, atendimento, caixa — com acessibilidade de verdade.',
     now() - interval '2 days'
   ),
   (
@@ -428,13 +550,13 @@ insert into public.posts (id, profile_id, content, created_at) values
   (
     'f2222222-2222-4222-8222-222222222222',
     'a2222222-2222-4222-8222-222222222222',
-    'Abrimos vaga de pessoa desenvolvedora front-end: processo com leitor de tela e, se precisar, intérprete de Libras. A acessibilidade vai na descrição, não só no discurso.',
+    'Abrimos vaga de auxiliar administrativo: processo com leitor de tela e horário flexível. Também tem caixa, estoque e recepção. A acessibilidade vai na descrição, não só no discurso.',
     now() - interval '3 hours'
   ),
   (
     'f4444444-4444-4444-8444-444444444444',
     'a4444444-4444-4444-8444-444444444444',
-    'Procuro vaga de dados com horário flexível. Quem da rede já passou por processo seletivo que descrevia acessibilidade de verdade?',
+    'Procuro vaga de estoque ou caixa com horário flexível. Quem da rede já passou por processo seletivo que descrevia acessibilidade de verdade?',
     now() - interval '5 hours'
   ),
   (
@@ -473,7 +595,7 @@ insert into public.notifications (id, profile_id, type, title, body, link, is_re
     'a1111111-1111-4111-8111-111111111111',
     'application_status',
     'Candidatura em análise',
-    'A Inclusiva Tech moveu sua candidatura para Pessoa desenvolvedora front-end.',
+    'A Rede Viva Mais moveu sua candidatura para Auxiliar administrativo.',
     '/candidaturas',
     false
   ),

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Bell, Menu, User } from "lucide-react";
+import { LogoutButton, LogoutMenuItem } from "@/components/auth/LogoutButton";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -68,6 +69,12 @@ export function HeaderBar({ isLoggedIn, unreadCount, companies }: HeaderBarProps
                     <Link href={item.href}>{item.label}</Link>
                   </DropdownMenuItem>
                 ))}
+                {isLoggedIn ? (
+                  <>
+                    <DropdownMenuSeparator />
+                    <LogoutMenuItem />
+                  </>
+                ) : null}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -94,43 +101,48 @@ export function HeaderBar({ isLoggedIn, unreadCount, companies }: HeaderBarProps
           </Button>
 
           {isLoggedIn ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Abrir menu da conta">
-                  <User />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link href="/perfil/editar">Editar perfil</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/candidaturas">Candidaturas</Link>
-                </DropdownMenuItem>
-                {hasCompany ? (
-                  <>
-                    <DropdownMenuItem asChild>
-                      <Link href="/empresas?minhas=1">Minhas empresas</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/vagas/nova">Publicar vaga</Link>
-                    </DropdownMenuItem>
-                  </>
-                ) : (
+            <>
+              <LogoutButton />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" aria-label="Abrir menu da conta">
+                    <User />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
                   <DropdownMenuItem asChild>
-                    <Link href="/empresas/nova">Criar página de empresa</Link>
+                    <Link href="/perfil/editar">Editar perfil</Link>
                   </DropdownMenuItem>
-                )}
-                {hasCompany ? (
-                  <>
-                    <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/candidaturas">Candidaturas</Link>
+                  </DropdownMenuItem>
+                  {hasCompany ? (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/empresas?minhas=1">Minhas empresas</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/vagas/nova">Publicar vaga</Link>
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
                     <DropdownMenuItem asChild>
-                      <Link href="/empresas/nova">Criar outra empresa</Link>
+                      <Link href="/empresas/nova">Criar página de empresa</Link>
                     </DropdownMenuItem>
-                  </>
-                ) : null}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  )}
+                  {hasCompany ? (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/empresas/nova">Criar outra empresa</Link>
+                      </DropdownMenuItem>
+                    </>
+                  ) : null}
+                  <DropdownMenuSeparator />
+                  <LogoutMenuItem />
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
             <Button variant="ghost" size="icon" aria-label="Entrar" asChild>
               <Link href="/login">

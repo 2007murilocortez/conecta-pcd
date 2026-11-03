@@ -19,6 +19,12 @@ export function formatPostedAt(iso: string) {
   return `Publicada ${relative.replace(/^Há/, "há")}`;
 }
 
+export function formatExcerpt(text: string, max = 160) {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  return `${clean.slice(0, max).replace(/\s+\S*$/, "")}…`;
+}
+
 export function formatSalary(min: number | null, max: number | null) {
   const format = (value: number) =>
     value.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });

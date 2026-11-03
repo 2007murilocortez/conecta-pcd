@@ -91,9 +91,10 @@ export default function SobreAcessibilidadePage() {
         <p>
           Por isso o layout tem VLibras, skip-link, foco visível, labels em
           todo campo, <code>aria-live</code> nos formulários, toolbar de fonte /
-          contraste / movimento, e a listagem de cursos. Comandos por voz não
-          têm motor próprio neste MVP: o site é usável com o reconhecimento de
-          voz do sistema operacional e com teclado.
+          contraste / movimento, e um botão de ouvir o texto: clica nele e uma
+          voz lê a página em português; depois dá para clicar noutro trecho
+          para ouvir só aquilo. Comandos por voz (falar para o site) usam o
+          reconhecimento do próprio sistema operacional.
         </p>
       </section>
 

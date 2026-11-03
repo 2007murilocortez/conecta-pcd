@@ -1,12 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Contrast, Minus, Plus, PersonStanding } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Contrast, Minus, Plus, PersonStanding, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   saveAccessibilityPrefs,
   type AccessibilityPrefs,
 } from "@/lib/actions/accessibility";
+import {
+  canSpeak,
+  getClickedText,
+  getMainText,
+  getSelectedText,
+  shouldIgnoreClick,
+  speakText,
+  stopSpeaking,
+} from "@/lib/read-aloud";
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 1.5;
@@ -44,6 +54,11 @@ export function AccessibilityToolbar({
 }) {
   const [prefs, setPrefs] = useState<AccessibilityPrefs>(initial);
   const [ready, setReady] = useState(false);
+  const [listenMode, setListenMode] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(true);
+  const keepAliveRef = useRef<number | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const local = readLocal();
@@ -66,6 +81,94 @@ export function AccessibilityToolbar({
     }
   }, [prefs, persist, ready]);
 
+  function clearKeepAlive() {
+    if (keepAliveRef.current) {
+      window.clearInterval(keepAliveRef.current);
+      keepAliveRef.current = null;
+    }
+  }
+
+  function startKeepAlive() {
+    clearKeepAlive();
+    keepAliveRef.current = window.setInterval(() => {
+      if (!window.speechSynthesis.speaking) {
+        clearKeepAlive();
+        return;
+      }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 12000);
+  }
+
+  function stopListen() {
+    stopSpeaking();
+    clearKeepAlive();
+    setSpeaking(false);
+    setListenMode(false);
+  }
+
+  function read(text: string) {
+    const started = speakText(text, () => {
+      clearKeepAlive();
+      setSpeaking(false);
+    });
+    setSpeaking(started);
+    if (started) startKeepAlive();
+  }
+
+  const readRef = useRef(read);
+  readRef.current = read;
+
+  useEffect(() => {
+    setSpeechSupported(canSpeak());
+  }, []);
+
+  useEffect(() => {
+    if (!listenMode) return;
+
+    function onClick(event: MouseEvent) {
+      if (shouldIgnoreClick(event.target)) return;
+      const text = getClickedText(event.target);
+      if (!text) return;
+      event.preventDefault();
+      event.stopPropagation();
+      readRef.current(text);
+    }
+
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, [listenMode]);
+
+  useEffect(() => {
+    stopSpeaking();
+    clearKeepAlive();
+    setSpeaking(false);
+    setListenMode(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      stopSpeaking();
+      clearKeepAlive();
+    };
+  }, []);
+
+  function toggleListen() {
+    if (!canSpeak()) {
+      setSpeechSupported(false);
+      return;
+    }
+
+    if (listenMode) {
+      stopListen();
+      return;
+    }
+
+    setListenMode(true);
+    const selected = getSelectedText();
+    read(selected || getMainText());
+  }
+
   function decreaseFont() {
     setPrefs((current) => ({
       ...current,
@@ -82,6 +185,7 @@ export function AccessibilityToolbar({
 
   return (
     <div
+      data-a11y-toolbar="true"
       role="region"
       aria-label="Ajustes de acessibilidade"
       className="fixed bottom-4 left-4 z-50 rounded-lg border border-border bg-bg p-2 shadow-md"
@@ -147,7 +251,37 @@ export function AccessibilityToolbar({
         >
           <PersonStanding />
         </Button>
+
+        <Button
+          type="button"
+          variant={listenMode ? "default" : "outline"}
+          size="icon"
+          onClick={toggleListen}
+          disabled={!speechSupported}
+          aria-pressed={listenMode}
+          aria-label={
+            !speechSupported
+              ? "Leitura em voz alta não disponível neste navegador"
+              : listenMode
+                ? "Parar leitura em voz alta"
+                : "Ouvir o texto da página"
+          }
+        >
+          {listenMode ? <VolumeX /> : <Volume2 />}
+        </Button>
       </div>
+      {listenMode ? (
+        <p className="mt-1 max-w-64 px-1 text-sm text-neutral-700" aria-live="polite">
+          {speaking
+            ? "Lendo. Clique noutro texto, ou no botão, para parar."
+            : "Clique no texto que quiser ouvir."}
+        </p>
+      ) : null}
+      {!speechSupported ? (
+        <p className="mt-1 max-w-64 px-1 text-sm text-neutral-700" role="status">
+          Este navegador não lê texto em voz alta.
+        </p>
+      ) : null}
     </div>
   );
 }

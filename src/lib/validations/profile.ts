@@ -22,7 +22,7 @@ export const updateProfileSchema = z.object({
   headline: z
     .string()
     .trim()
-    .min(2, "Informe um título profissional, por exemplo: Pessoa desenvolvedora front-end"),
+    .min(2, "Informe um título profissional, por exemplo: Auxiliar administrativa"),
   bio: optionalText,
   phone: optionalText,
   location_city: optionalText,

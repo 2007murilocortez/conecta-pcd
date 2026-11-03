@@ -43,17 +43,17 @@ export default function LandingPage() {
               Exemplo de vaga na plataforma
             </p>
             <h2 className="text-h3 text-neutral-900">
-              Pessoa desenvolvedora front-end
+              Auxiliar administrativo
             </h2>
             <p className="mb-3 text-neutral-600">
-              Inclusiva Tech · Remoto
+              Rede Viva Mais · Híbrido · São Paulo, SP
             </p>
             <ul className="mb-4 flex flex-wrap gap-2" aria-label="Tipo e modalidade">
               <li className="border border-border bg-bg px-2 py-1 text-body-sm">
                 CLT
               </li>
               <li className="border border-border bg-bg px-2 py-1 text-body-sm">
-                Remoto
+                Híbrido
               </li>
             </ul>
             <p className="mb-2 text-caption text-neutral-900">
@@ -61,10 +61,10 @@ export default function LandingPage() {
             </p>
             <ul className="flex flex-wrap gap-2" aria-label="Recursos de acessibilidade">
               <li className="bg-[color-mix(in_srgb,var(--secondary)_10%,white)] px-2 py-1 text-body-sm font-medium text-secondary">
-                Libras na entrevista
+                Leitor de tela
               </li>
               <li className="bg-[color-mix(in_srgb,var(--secondary)_10%,white)] px-2 py-1 text-body-sm font-medium text-secondary">
-                Leitor de tela
+                Horário flexível
               </li>
             </ul>
           </article>
@@ -81,7 +81,7 @@ export default function LandingPage() {
           <li>Página da empresa, avaliações e selo inclusivo (não é autodeclaração)</li>
           <li>Empresa publica vaga e muda o status de quem se candidatou</li>
           <li>Conexões, mentoria e cursos oficiais gratuitos</li>
-          <li>Acessibilidade de verdade: VLibras, fonte, contraste, teclado</li>
+          <li>Acessibilidade de verdade: VLibras, ouvir o texto em voz alta, fonte, contraste, teclado</li>
         </ul>
       </section>
 

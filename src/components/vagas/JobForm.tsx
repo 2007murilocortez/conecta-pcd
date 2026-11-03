@@ -51,7 +51,7 @@ export function JobForm({
       description: defaultValues?.description ?? "",
       requirements: defaultValues?.requirements ?? "",
       type: defaultValues?.type ?? "CLT",
-      work_mode: defaultValues?.work_mode ?? "remoto",
+      work_mode: defaultValues?.work_mode ?? "presencial",
       location_city: defaultValues?.location_city ?? "",
       location_state: defaultValues?.location_state ?? "",
       salary_min: defaultValues?.salary_min,
@@ -128,7 +128,12 @@ export function JobForm({
               <Field data-invalid={fieldState.invalid || undefined}>
                 <FieldLabel htmlFor="job_title">Título da vaga</FieldLabel>
                 <FormControl>
-                  <Input id="job_title" className="min-h-11" {...field} />
+                  <Input
+                    id="job_title"
+                    className="min-h-11"
+                    placeholder="Ex.: Auxiliar administrativo, operador de caixa, recepcionista"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </Field>
@@ -144,8 +149,16 @@ export function JobForm({
               <Field data-invalid={fieldState.invalid || undefined}>
                 <FieldLabel htmlFor="job_description">Descrição</FieldLabel>
                 <FormControl>
-                  <Textarea id="job_description" className="min-h-32" {...field} />
+                  <Textarea
+                    id="job_description"
+                    className="min-h-32"
+                    placeholder="Descreva o dia a dia e o recurso de acessibilidade (leitor de tela, Libras, horário flexível, rampa)."
+                    {...field}
+                  />
                 </FormControl>
+                <FieldDescription>
+                  Escreva o recurso de acessibilidade no anúncio. Selo genérico não basta.
+                </FieldDescription>
                 <FormMessage />
               </Field>
             </FormItem>

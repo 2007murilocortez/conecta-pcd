@@ -199,7 +199,7 @@ function BasicsSection({ profile }: { profile: Tables<"profiles"> }) {
                     <Input
                       id="headline"
                       className="min-h-11"
-                      placeholder="Pessoa desenvolvedora front-end"
+                      placeholder="Auxiliar administrativa"
                       {...field}
                     />
                   </FormControl>

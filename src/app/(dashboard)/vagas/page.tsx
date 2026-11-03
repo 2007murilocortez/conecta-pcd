@@ -29,8 +29,9 @@ export default async function VagasPage({
       <div>
         <h1 className="text-primary">Vagas</h1>
         <p>
-          Filtre pelo que a vaga oferece de acessibilidade — esse é o filtro em
-          destaque, não um detalhe escondido.
+          Administrativo, atendimento, caixa, recepção, estoque e digitação —
+          cargos em que muita gente com deficiência entra no mercado. O filtro
+          em destaque é a acessibilidade da vaga, não um detalhe escondido.
         </p>
       </div>
 

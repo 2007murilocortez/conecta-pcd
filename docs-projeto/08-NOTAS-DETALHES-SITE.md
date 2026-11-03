@@ -66,7 +66,7 @@ Stack: Next.js (App Router) + TypeScript + Tailwind + shadcn/ui + Supabase (Post
 - Revisão mobile (a pesquisa aponta uso de celular)
 - Aplicar as duas migrations de policy que ainda podem faltar no banco (conexão/imagem do feed; cursos concluídos públicos; notificação de mentoria)
 - `NEXT_PUBLIC_SITE_URL` e callback do Supabase em produção
-- Parte escrita extra que o professor pediu: usar este arquivo + prints das telas
+- Parte escrita extra que o professor pediu: este arquivo + `10-FUNCIONALIDADES-E-TESTES.md` + prints das telas
 - Novembro: banner/pôster (Anexo 3) e apresentação
 - Dezembro: Anexos 2–4 oficiais + vídeo de backup
 

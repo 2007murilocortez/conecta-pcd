@@ -50,6 +50,11 @@ const CATEGORY_KEYWORDS: Record<string, string[]> = {
     "projeto",
     "administração",
     "administracao",
+    "atendimento",
+    "caixa",
+    "digit",
+    "recep",
+    "estoque",
   ],
   Tecnologia: [
     "python",

@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { AccessibilityChips } from "@/components/vagas/AccessibilityChips";
 import { JOB_TYPES, WORK_MODES, labelFor } from "@/lib/constants/jobs";
-import { formatLocation, formatPostedAt } from "@/lib/jobs/format";
+import { formatExcerpt, formatLocation, formatPostedAt, formatSalary } from "@/lib/jobs/format";
 import type { JobWithCompany } from "@/lib/actions/jobs";
 
 export function JobCard({ job }: { job: JobWithCompany }) {
   const companyName = job.companies?.name ?? "Empresa";
+  const salary = job.salary_visible ? formatSalary(job.salary_min, job.salary_max) : null;
 
   return (
     <Card>
@@ -37,7 +38,9 @@ export function JobCard({ job }: { job: JobWithCompany }) {
           ) : null}
         </p>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
+        <p>{formatExcerpt(job.description)}</p>
+        {salary ? <p className="font-medium">{salary}</p> : null}
         <AccessibilityChips resources={job.accessibility_resources} />
       </CardContent>
       <CardFooter className="justify-between gap-3">
