@@ -24,10 +24,10 @@ export default function LandingPage() {
             </p>
             <div className="mt-2 flex flex-wrap gap-3">
               <Button asChild>
-                <Link href="/cadastro">Criar perfil</Link>
+                <Link href="/login">Entrar na demonstração</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="/vagas">Ver vagas</Link>
+                <Link href="/cadastro">Criar perfil</Link>
               </Button>
               <Button asChild variant="ghost">
                 <Link href="/apresentacao">O que dá para fazer no site</Link>
@@ -46,7 +46,7 @@ export default function LandingPage() {
               Pessoa desenvolvedora front-end
             </h2>
             <p className="mb-3 text-neutral-600">
-              Empresa exemplo · Recife, PE
+              Inclusiva Tech · Remoto
             </p>
             <ul className="mb-4 flex flex-wrap gap-2" aria-label="Tipo e modalidade">
               <li className="border border-border bg-bg px-2 py-1 text-body-sm">
@@ -69,6 +69,20 @@ export default function LandingPage() {
             </ul>
           </article>
         </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-16">
+        <h2 className="max-w-2xl text-primary">O que o site consegue fazer</h2>
+        <ul className="mt-6 grid gap-3 text-neutral-900 md:grid-cols-2">
+          <li>Perfil profissional (formação, experiência, habilidades e se a deficiência aparece ou não)</li>
+          <li>Feed da rede: publicar texto (e foto) e ver posts das conexões</li>
+          <li>Vagas com filtro de acessibilidade (Libras, leitor de tela, intérprete, horário flexível)</li>
+          <li>Candidatura em um clique e acompanhamento do status</li>
+          <li>Página da empresa, avaliações e selo inclusivo (não é autodeclaração)</li>
+          <li>Empresa publica vaga e muda o status de quem se candidatou</li>
+          <li>Conexões, mentoria e cursos oficiais gratuitos</li>
+          <li>Acessibilidade de verdade: VLibras, fonte, contraste, teclado</li>
+        </ul>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-16">
@@ -146,7 +160,7 @@ export default function LandingPage() {
             Brasileira de Inclusão (Lei 13.146/2015).
           </p>
           <Button asChild className="mt-2">
-            <Link href="/cadastro">Começar agora</Link>
+            <Link href="/login">Entrar na demonstração</Link>
           </Button>
         </div>
       </section>

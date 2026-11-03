@@ -10,7 +10,11 @@ export const respondConnectionSchema = z.object({
 });
 
 export const createPostSchema = z.object({
-  content: z.string().trim().min(1, "Escreva algo para publicar"),
+  content: z
+    .string()
+    .trim()
+    .min(1, "Escreva algo para publicar")
+    .max(2000, "O post pode ter no máximo 2.000 caracteres"),
   image_alt: z.string().trim().optional(),
 });
 

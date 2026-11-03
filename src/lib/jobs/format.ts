@@ -1,10 +1,22 @@
-export function formatPostedAt(iso: string) {
+export function formatRelativeTime(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
-  const days = Math.floor(diff / 86_400_000);
+  const minutes = Math.floor(diff / 60_000);
 
-  if (days <= 0) return "Publicada hoje";
-  if (days === 1) return "Publicada há 1 dia";
-  return `Publicada há ${days} dias`;
+  if (minutes < 1) return "Agora";
+  if (minutes < 60) return `Há ${minutes} min`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return hours === 1 ? "Há 1 hora" : `Há ${hours} horas`;
+
+  const days = Math.floor(hours / 24);
+  if (days === 1) return "Há 1 dia";
+  return `Há ${days} dias`;
+}
+
+export function formatPostedAt(iso: string) {
+  const relative = formatRelativeTime(iso);
+  if (relative === "Agora") return "Publicada agora";
+  return `Publicada ${relative.replace(/^Há/, "há")}`;
 }
 
 export function formatSalary(min: number | null, max: number | null) {

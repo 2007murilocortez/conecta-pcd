@@ -412,16 +412,42 @@ insert into public.mentorships (id, mentor_id, mentee_id, message, status) value
   )
 on conflict (id) do update set status = excluded.status;
 
-insert into public.posts (id, profile_id, content) values
+insert into public.posts (id, profile_id, content, created_at) values
   (
     'f3333333-3333-4333-8333-333333333333',
     'a3333333-3333-4333-8333-333333333333',
-    'Abri agenda de mentoria para quem está buscando a primeira vaga em tecnologia com acessibilidade de verdade.'
+    'Abri agenda de mentoria para quem está buscando a primeira vaga em tecnologia com acessibilidade de verdade.',
+    now() - interval '2 days'
   ),
   (
     'f1111111-1111-4111-8111-111111111111',
     'a1111111-1111-4111-8111-111111111111',
-    'Concluí o curso de Acessibilidade na Comunicação da EVG. Recomendo para quem for entrevistar ou publicar vaga.'
+    'Concluí o curso de Acessibilidade na Comunicação da EVG. Recomendo para quem for entrevistar ou publicar vaga.',
+    now() - interval '1 day'
+  ),
+  (
+    'f2222222-2222-4222-8222-222222222222',
+    'a2222222-2222-4222-8222-222222222222',
+    'Abrimos vaga de pessoa desenvolvedora front-end: processo com leitor de tela e, se precisar, intérprete de Libras. A acessibilidade vai na descrição, não só no discurso.',
+    now() - interval '3 hours'
+  ),
+  (
+    'f4444444-4444-4444-8444-444444444444',
+    'a4444444-4444-4444-8444-444444444444',
+    'Procuro vaga de dados com horário flexível. Quem da rede já passou por processo seletivo que descrevia acessibilidade de verdade?',
+    now() - interval '5 hours'
+  ),
+  (
+    'f5555555-5555-4555-8555-555555555555',
+    'a1111111-1111-4111-8111-111111111111',
+    'Alguém indica empresa que coloca Libras ou leitor de tela na vaga, em vez de um selo genérico?',
+    now() - interval '1 hour'
+  ),
+  (
+    'f6666666-6666-4666-8666-666666666666',
+    'a3333333-3333-4333-8333-333333333333',
+    'Dica rápida: se a entrevista precisa de intérprete, isso tem que estar escrito no anúncio. Candidata e candidato não deveriam ter que descobrir na hora.',
+    now() - interval '8 hours'
   )
 on conflict (id) do update set content = excluded.content;
 

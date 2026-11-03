@@ -19,7 +19,7 @@ Bruno Costa existe só para deixar um **pedido de conexão pendente** na conta d
 
 1. **Landing** (`/`) — o que é o produto + 26,6% IBGE. Toolbar (fonte / contraste) e VLibras no canto.
 2. **Entrar** — e-mail da Ana + senha. Não passar por cadastro.
-3. **Feed** — post do Paulo + “vagas para você”.
+3. **Feed** — caixa de publicar no topo (modelos: conquista, busco vaga, dica). Posts da Ana, do Paulo e da Carla já estão na rede.
 4. **Vagas** — filtro de acessibilidade (Libras, leitor de tela). Abrir *Pessoa desenvolvedora front-end*.
 5. **Candidaturas** — a da Ana já está *em análise*.
 6. **Empresas** — Inclusiva Tech tem selo (admin concedeu; não é autodeclaração). Avaliação da Ana na página.
