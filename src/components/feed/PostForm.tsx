@@ -40,7 +40,7 @@ export function PostForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="space-y-4 rounded-xl border border-border bg-card p-4"
+      className="surface-card space-y-4 p-5"
       noValidate
     >
       <div aria-live="polite" className="sr-only">

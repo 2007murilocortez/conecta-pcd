@@ -8,7 +8,7 @@ export function CourseFilters({
   categories: string[];
 }) {
   return (
-    <form method="get" className="space-y-4 rounded-xl border border-border p-4">
+    <form method="get" className="surface-card space-y-4 p-5">
       <fieldset>
         <legend className="mb-2 font-medium">Categoria</legend>
         <div className="flex flex-wrap gap-3">

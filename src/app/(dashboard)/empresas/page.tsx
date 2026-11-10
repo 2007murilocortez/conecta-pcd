@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CompanyRatings } from "@/components/empresas/CompanyRatings";
 import { VerifiedInclusiveBadge } from "@/components/empresas/VerifiedInclusiveBadge";
+import { EmptyState, PageHeading, PageShell } from "@/components/shared";
 import { listCompanies } from "@/lib/actions/company";
 import { ACCESSIBILITY_RESOURCES, labelFor } from "@/lib/constants/jobs";
 
@@ -17,47 +18,61 @@ export default async function EmpresasPage({
   const result = await listCompanies(onlyMine);
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-12">
-      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-primary">{onlyMine ? "Minhas empresas" : "Empresas"}</h1>
-          <p>
-            {onlyMine
-              ? "Empresas em que você é dono ou recrutador."
-              : "Veja o selo, as notas e os recursos de acessibilidade antes de se candidatar."}
-          </p>
-        </div>
-        <Button asChild>
-          <Link href="/empresas/nova">Criar página de empresa</Link>
-        </Button>
-      </div>
+    <PageShell width="wide">
+      <PageHeading
+        eyebrow="Mercado"
+        title={onlyMine ? "Minhas empresas" : "Empresas"}
+        description={
+          onlyMine
+            ? "Empresas em que você é dono ou recrutador."
+            : "Veja o selo, as notas e os recursos de acessibilidade antes de se candidatar."
+        }
+        actions={
+          <Button asChild>
+            <Link href="/empresas/nova">Criar página de empresa</Link>
+          </Button>
+        }
+      />
 
-      {onlyMine ? (
-        <p className="mb-6">
+      <p className="mb-6">
+        {onlyMine ? (
           <Link href="/empresas" className="text-primary underline underline-offset-4">
             Ver todas as empresas
           </Link>
-        </p>
-      ) : (
-        <p className="mb-6">
+        ) : (
           <Link href="/empresas?minhas=1" className="text-primary underline underline-offset-4">
             Ver só as minhas
           </Link>
-        </p>
-      )}
+        )}
+      </p>
 
       {result.error ? (
         <p role="alert">{result.error}</p>
       ) : result.data.length === 0 ? (
-        <p>Nenhuma empresa encontrada.</p>
+        <EmptyState
+          title="Nenhuma empresa encontrada"
+          description={
+            onlyMine
+              ? "Crie a primeira página para publicar vagas em nome da organização."
+              : "Quando as empresas tiverem páginas públicas, elas aparecem aqui."
+          }
+          action={
+            <Button asChild>
+              <Link href="/empresas/nova">Criar página de empresa</Link>
+            </Button>
+          }
+        />
       ) : (
-        <ul className="space-y-4">
+        <ul className="grid gap-4 md:grid-cols-2">
           {result.data.map((company) => (
-            <li key={company.id} className="rounded-xl border border-border p-4">
-              <h2 className="text-lg font-semibold">
+            <li key={company.id} className="surface-card surface-card-hover p-6">
+              <div className="mb-3 flex size-12 items-center justify-center rounded-2xl bg-brand-light text-lg font-semibold text-primary-dark" aria-hidden>
+                {company.name.slice(0, 1).toUpperCase()}
+              </div>
+              <h2 className="text-xl">
                 <Link
                   href={`/empresas/${company.id}`}
-                  className="text-primary focus-visible:outline-offset-1"
+                  className="text-primary-dark focus-visible:outline-offset-1"
                 >
                   {company.name}
                 </Link>
@@ -74,11 +89,11 @@ export default async function EmpresasPage({
               />
               {company.sector ? <p className="text-neutral-600">{company.sector}</p> : null}
               {company.accessibility_features && company.accessibility_features.length > 0 ? (
-                <ul className="mt-2 flex flex-wrap gap-2">
+                <ul className="mt-3 flex flex-wrap gap-2">
                   {company.accessibility_features.map((feature) => (
                     <li
                       key={feature}
-                      className="rounded-full bg-secondary/10 px-3 py-1 text-sm text-secondary"
+                      className="rounded-full bg-success-surface px-3 py-1 text-sm font-medium text-success-text"
                     >
                       {labelFor(ACCESSIBILITY_RESOURCES, feature)}
                     </li>
@@ -94,6 +109,6 @@ export default async function EmpresasPage({
           ))}
         </ul>
       )}
-    </div>
+    </PageShell>
   );
 }

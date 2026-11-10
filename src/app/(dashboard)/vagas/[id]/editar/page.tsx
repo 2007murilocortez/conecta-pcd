@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation";
+import { PageHeading, PageShell } from "@/components/shared";
 import { JobForm } from "@/components/vagas/JobForm";
 import { getMyCompanies } from "@/lib/actions/company";
 import { getJobById } from "@/lib/actions/jobs";
@@ -29,10 +30,13 @@ export default async function EditarVagaPage({
   const { job } = jobResult.data;
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-12">
-      <h1 className="text-primary">Editar vaga</h1>
-      <p>As mudanças valem na hora para quem estiver vendo a listagem.</p>
-      <div className="mt-8">
+    <PageShell width="narrow">
+      <PageHeading
+        eyebrow="Publicação"
+        title="Editar vaga"
+        description="As mudanças valem na hora para quem estiver vendo a listagem."
+      />
+      <div className="surface-card p-6">
         <JobForm
           companies={companies}
           jobId={job.id}
@@ -52,6 +56,6 @@ export default async function EditarVagaPage({
           }}
         />
       </div>
-    </div>
+    </PageShell>
   );
 }

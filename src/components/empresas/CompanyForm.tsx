@@ -158,7 +158,7 @@ export function CompanyForm() {
                 <FormControl>
                   <select
                     id="company_size"
-                    className="min-h-11 w-full rounded-lg border border-input bg-transparent px-2.5"
+                    className="form-select"
                     {...field}
                     value={field.value ?? ""}
                   >
@@ -180,8 +180,8 @@ export function CompanyForm() {
           name="accessibility_features"
           render={({ field }) => (
             <FormItem>
-              <fieldset>
-                <legend className="mb-2 font-medium">
+              <fieldset className="rounded-2xl border border-success-text/25 bg-success-surface p-4">
+                <legend className="px-1 font-medium text-success-text">
                   Recursos de acessibilidade que a empresa oferece
                 </legend>
                 <div className="grid gap-2">

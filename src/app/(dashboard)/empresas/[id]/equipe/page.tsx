@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { AddMemberForm } from "@/components/empresas/AddMemberForm";
 import { OwnPcdBadgeToggle } from "@/components/empresas/OwnPcdBadgeToggle";
 import { RemoveMemberButton } from "@/components/empresas/RemoveMemberButton";
+import { PageHeading, PageShell, StatusBadge } from "@/components/shared";
 import { getCompanyTeamPage } from "@/lib/actions/company";
 import { createClient } from "@/lib/supabase/server";
 
@@ -43,21 +44,19 @@ export default async function EmpresaEquipePage({
   const { members, ownerCount, userId } = result.data;
 
   return (
-    <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12">
-      <div>
-        <p>
-          <Link href={`/empresas/${id}`} className="text-primary underline underline-offset-4">
-            Voltar para {company.name}
-          </Link>
-        </p>
-        <h1 className="text-primary">Equipe de {company.name}</h1>
-        <p>
-          Adicione recrutadores pelo e-mail da conta deles. Cada pessoa controla a
-          própria estrela de pessoa com deficiência.
-        </p>
-      </div>
+    <PageShell width="narrow" className="space-y-8">
+      <p>
+        <Link href={`/empresas/${id}`} className="text-primary underline underline-offset-4">
+          Voltar para {company.name}
+        </Link>
+      </p>
+      <PageHeading
+        eyebrow="Gestão"
+        title={`Equipe de ${company.name}`}
+        description="Adicione recrutadores pelo e-mail da conta deles. Cada pessoa controla a própria estrela de pessoa com deficiência."
+      />
 
-      <section>
+      <section className="surface-card p-6">
         <h2>Membros atuais</h2>
         <ul className="mt-4 space-y-3">
           {members.map((member) => {
@@ -65,12 +64,14 @@ export default async function EmpresaEquipePage({
             const isSelf = member.profile_id === userId;
 
             return (
-              <li key={member.id} className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-border p-4">
+              <li key={member.id} className="flex flex-wrap items-start justify-between gap-3 rounded-2xl border border-border bg-white p-4">
                 <div>
-                  <p className="font-medium">{member.full_name}</p>
-                  <p className="text-sm text-neutral-600">{ROLE_LABEL[member.member_role]}</p>
+                  <p className="mb-1 font-medium">{member.full_name}</p>
+                  <StatusBadge tone={member.member_role === "dono" ? "info" : "neutral"}>
+                    {ROLE_LABEL[member.member_role]}
+                  </StatusBadge>
                   {isLastOwner ? (
-                    <p className="mt-1 text-sm text-neutral-600">
+                    <p className="mt-2 mb-0 text-sm text-neutral-600">
                       Único dono — não pode ser removido enquanto não houver outro.
                     </p>
                   ) : null}
@@ -96,10 +97,10 @@ export default async function EmpresaEquipePage({
         </ul>
       </section>
 
-      <section>
+      <section className="surface-card p-6">
         <h2>Adicionar recrutador</h2>
         <AddMemberForm companyId={id} />
       </section>
-    </div>
+    </PageShell>
   );
 }

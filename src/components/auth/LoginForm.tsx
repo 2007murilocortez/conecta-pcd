@@ -141,8 +141,11 @@ export function LoginForm() {
           </Link>
         </p>
 
-        <div className="rounded-md border border-border p-3">
-          <p className="mb-2 text-sm font-medium">Contas da apresentação (senha {DEMO_PASSWORD})</p>
+        <div className="rounded-2xl border border-dashed border-border bg-neutral-100 p-4">
+          <p className="mb-1 text-sm font-medium text-primary-dark">Contas da apresentação</p>
+          <p className="mb-3 text-sm text-neutral-600">
+            Uso interno da demo. Senha: {DEMO_PASSWORD}
+          </p>
           <ul className="m-0 flex list-none flex-col gap-2 p-0">
             {DEMO_ACCOUNTS.map((account) => (
               <li key={account.id}>

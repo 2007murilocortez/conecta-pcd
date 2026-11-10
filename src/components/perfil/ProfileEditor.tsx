@@ -85,7 +85,7 @@ export function ProfileEditor({
   return (
     <div className="space-y-12">
       {isOnboarding ? (
-        <p role="status" className="rounded-md border border-border bg-neutral-100 p-4">
+        <p role="status" className="rounded-[1.15rem] border border-border bg-brand-light p-4">
           Complete os dados básicos abaixo — pelo menos nome e título
           profissional — para começar a usar o restante da plataforma.
         </p>
@@ -137,8 +137,8 @@ function BasicsSection({ profile }: { profile: Tables<"profiles"> }) {
   }
 
   return (
-    <section aria-labelledby="dados-basicos">
-      <h2 id="dados-basicos">Dados básicos</h2>
+    <section aria-labelledby="dados-basicos" className="surface-card mb-6 p-6">
+      <h2 id="dados-basicos">Informações básicas</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" noValidate>
           <div aria-live="polite" className="sr-only">
@@ -289,6 +289,7 @@ function BasicsSection({ profile }: { profile: Tables<"profiles"> }) {
             )}
           />
 
+          <h3 className="pt-2">Preferências de mentoria</h3>
           <FormField
             control={form.control}
             name="open_to_mentor"
@@ -351,7 +352,7 @@ function EducationSection({ items }: { items: Tables<"educations">[] }) {
   }
 
   return (
-    <section aria-labelledby="formacao">
+    <section aria-labelledby="formacao" className="surface-card mb-6 p-6">
       <h2 id="formacao">Formação</h2>
       <ul className="mb-6 space-y-3">
         {items.length === 0 ? (
@@ -533,7 +534,7 @@ function ExperienceSection({ items }: { items: Tables<"experiences">[] }) {
   }
 
   return (
-    <section aria-labelledby="experiencias">
+    <section aria-labelledby="experiencias" className="surface-card mb-6 p-6">
       <h2 id="experiencias">Experiências</h2>
       <ul className="mb-6 space-y-3">
         {items.length === 0 ? (
@@ -708,7 +709,7 @@ function SkillsSection({
   }
 
   return (
-    <section aria-labelledby="habilidades">
+    <section aria-labelledby="habilidades" className="surface-card mb-6 p-6">
       <h2 id="habilidades">Habilidades</h2>
       <ul className="mb-4 flex flex-wrap gap-2">
         {items.length === 0 ? (
@@ -792,8 +793,8 @@ function AccessibilitySection({ profile }: { profile: Tables<"profiles"> }) {
   }
 
   return (
-    <section aria-labelledby="acessibilidade">
-      <h2 id="acessibilidade">Acessibilidade</h2>
+    <section aria-labelledby="acessibilidade" className="surface-card mb-6 p-6">
+      <h2 id="acessibilidade">Acessibilidade e privacidade</h2>
       <p>
         Essas informações são opcionais. Usamos só para filtrar vagas e
         adaptar o contato com empresas. O tipo de deficiência só aparece no
@@ -977,7 +978,7 @@ function ResumeSection({ hasResume }: { hasResume: boolean }) {
   }
 
   return (
-    <section aria-labelledby="curriculo">
+    <section aria-labelledby="curriculo" className="surface-card mb-6 p-6">
       <h2 id="curriculo">Currículo</h2>
       <div aria-live="polite" className="sr-only">
         {status}

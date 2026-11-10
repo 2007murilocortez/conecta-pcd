@@ -11,15 +11,15 @@ export function AccessibilityChips({
 
   return (
     <div>
-      <p className="mb-2 font-medium text-secondary">Recursos de acessibilidade</p>
+      <p className="mb-2 font-medium text-success-text">Recursos de acessibilidade</p>
       {items.length === 0 ? (
-        <p className="text-sm text-neutral-600">{emptyLabel}</p>
+        <p className="mb-0 text-sm text-neutral-600">{emptyLabel}</p>
       ) : (
         <ul className="flex flex-wrap gap-2">
           {items.map((resource) => (
             <li
               key={resource}
-              className="rounded-full bg-secondary/10 px-3 py-1 text-sm font-medium text-secondary"
+              className="rounded-full bg-success-surface px-3 py-1 text-sm font-medium text-success-text"
             >
               {labelFor(ACCESSIBILITY_RESOURCES, resource)}
             </li>

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { GrantSealButton } from "@/components/empresas/GrantSealButton";
+import { EmptyState, PageHeading, PageShell } from "@/components/shared";
 import { listAdminCompanies } from "@/lib/actions/company";
 
 export const dynamic = "force-dynamic";
@@ -19,19 +20,22 @@ export default async function AdminEmpresasPage() {
   const verified = result.data.filter((company) => company.is_verified_inclusive);
 
   return (
-    <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12">
-      <h1>Admin · selo de empresa inclusiva</h1>
-      <p>Ferramenta interna. O selo nunca é autodeclarado pela empresa.</p>
+    <PageShell width="narrow" className="space-y-8">
+      <PageHeading
+        eyebrow="Administração"
+        title="Selo de empresa inclusiva"
+        description="Ferramenta interna. O selo nunca é autodeclarado pela empresa."
+      />
 
-      <section>
+      <section className="surface-card p-6">
         <h2>Sem selo</h2>
         {pending.length === 0 ? (
-          <p>Nenhuma empresa pendente.</p>
+          <p className="mb-0 text-neutral-600">Nenhuma empresa pendente.</p>
         ) : (
           <ul className="mt-3 space-y-3">
             {pending.map((company) => (
-              <li key={company.id} className="flex flex-wrap items-center justify-between gap-3 border border-border p-3">
-                <p>{company.name}</p>
+              <li key={company.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white p-4">
+                <p className="mb-0 font-medium">{company.name}</p>
                 <GrantSealButton companyId={company.id} isVerified={false} />
               </li>
             ))}
@@ -39,21 +43,24 @@ export default async function AdminEmpresasPage() {
         )}
       </section>
 
-      <section>
+      <section className="surface-card p-6">
         <h2>Com selo</h2>
         {verified.length === 0 ? (
-          <p>Nenhuma empresa verificada.</p>
+          <EmptyState
+            title="Nenhuma empresa verificada"
+            description="Quando o selo for concedido, a empresa aparece nesta lista."
+          />
         ) : (
           <ul className="mt-3 space-y-3">
             {verified.map((company) => (
-              <li key={company.id} className="flex flex-wrap items-center justify-between gap-3 border border-border p-3">
-                <p>{company.name}</p>
+              <li key={company.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white p-4">
+                <p className="mb-0 font-medium">{company.name}</p>
                 <GrantSealButton companyId={company.id} isVerified />
               </li>
             ))}
           </ul>
         )}
       </section>
-    </div>
+    </PageShell>
   );
 }

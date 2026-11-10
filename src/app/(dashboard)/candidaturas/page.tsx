@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ApplicationStatusForm } from "@/components/candidaturas/ApplicationStatusForm";
+import { Button } from "@/components/ui/button";
+import { EmptyState, PageHeading, PageShell, StatusBadge, applicationStatusTone } from "@/components/shared";
 import { getMyCompanies } from "@/lib/actions/company";
 import {
   listCompanyJobs,
@@ -34,28 +36,42 @@ export default async function CandidaturasPage({
     : { data: [] };
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-12 px-4 py-12">
+    <PageShell width="wide" className="space-y-12">
       <section>
-        <h1 className="text-primary">Minhas candidaturas</h1>
+        <PageHeading
+          eyebrow="Acompanhamento"
+          title="Minhas candidaturas"
+          description="Veja o andamento das vagas às quais você se candidatou."
+        />
         {mine.error ? <p role="alert">{mine.error}</p> : null}
         {mine.data.length === 0 ? (
-          <p>Você ainda não se candidatou a nenhuma vaga.</p>
+          <EmptyState
+            title="Você ainda não se candidatou"
+            description="Explore vagas com recursos de acessibilidade informados e envie sua primeira candidatura."
+            action={
+              <Button asChild>
+                <Link href="/vagas">Ver vagas</Link>
+              </Button>
+            }
+          />
         ) : (
-          <ul className="mt-4 space-y-3">
+          <ul className="grid gap-4 md:grid-cols-2">
             {mine.data.map((application) => (
-              <li key={application.id} className="rounded-xl border border-border p-4">
-                <h2 className="text-lg font-semibold">
+              <li key={application.id} className="surface-card p-5">
+                <h2 className="text-lg">
                   <Link
                     href={`/vagas/${application.job_id}`}
-                    className="text-primary focus-visible:outline-offset-1"
+                    className="text-primary-dark focus-visible:outline-offset-1"
                   >
                     {application.jobs?.title ?? "Vaga"}
                   </Link>
                 </h2>
-                <p className="text-neutral-600">
-                  {application.jobs?.companies?.name ?? "Empresa"} ·{" "}
-                  {labelFor(APPLICATION_STATUSES, application.status)}
+                <p className="mb-3 text-neutral-600">
+                  {application.jobs?.companies?.name ?? "Empresa"}
                 </p>
+                <StatusBadge tone={applicationStatusTone(application.status)}>
+                  {labelFor(APPLICATION_STATUSES, application.status)}
+                </StatusBadge>
               </li>
             ))}
           </ul>
@@ -65,7 +81,7 @@ export default async function CandidaturasPage({
       {memberships.length > 0 ? (
         <section>
           <h2>Candidaturas recebidas</h2>
-          <form method="get" className="mt-4 grid gap-4 sm:grid-cols-2">
+          <form method="get" className="surface-card mt-4 grid gap-4 p-5 sm:grid-cols-2">
             <div>
               <label htmlFor="empresa" className="mb-1 block font-medium">
                 Empresa
@@ -73,7 +89,7 @@ export default async function CandidaturasPage({
               <select
                 id="empresa"
                 name="empresa"
-                className="min-h-11 w-full rounded-lg border border-input bg-transparent px-2.5"
+                className="form-select"
                 defaultValue={selectedCompany}
               >
                 {memberships.map((item) => (
@@ -90,7 +106,7 @@ export default async function CandidaturasPage({
               <select
                 id="vaga"
                 name="vaga"
-                className="min-h-11 w-full rounded-lg border border-input bg-transparent px-2.5"
+                className="form-select"
                 defaultValue={vaga ?? ""}
               >
                 <option value="">Todas as vagas</option>
@@ -102,24 +118,22 @@ export default async function CandidaturasPage({
               </select>
             </div>
             <div className="sm:col-span-2">
-              <button
-                type="submit"
-                className="inline-flex min-h-11 items-center rounded-lg bg-primary px-3 font-medium text-primary-foreground focus-visible:outline-offset-1"
-              >
-                Filtrar recebidas
-              </button>
+              <Button type="submit">Filtrar recebidas</Button>
             </div>
           </form>
 
           {received.error ? <p role="alert">{received.error}</p> : null}
           {received.data.length === 0 ? (
-            <p className="mt-4">Nenhuma candidatura recebida com esse filtro.</p>
+            <EmptyState
+              title="Nenhuma candidatura recebida"
+              description="Quando alguém se candidatar às vagas desta empresa, o pedido aparece aqui."
+            />
           ) : (
             <ul className="mt-4 space-y-4">
               {received.data.map((application) => (
-                <li key={application.id} className="space-y-3 rounded-xl border border-border p-4">
+                <li key={application.id} className="surface-card space-y-3 p-5">
                   <div>
-                    <h3 className="text-lg font-semibold">
+                    <h3>
                       {application.profiles_public?.full_name ?? "Pessoa candidata"}
                     </h3>
                     <p className="text-neutral-600">
@@ -142,6 +156,6 @@ export default async function CandidaturasPage({
           )}
         </section>
       ) : null}
-    </div>
+    </PageShell>
   );
 }

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { PageHeading, PageShell } from "@/components/shared";
 import { JobForm } from "@/components/vagas/JobForm";
 import { getMyCompanies } from "@/lib/actions/company";
 
@@ -27,15 +28,15 @@ export default async function NovaVagaPage({
       : companies[0]?.id;
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-12">
-      <h1 className="text-primary">Publicar vaga</h1>
-      <p>
-        A vaga é publicada em nome da empresa. Quem está logado fica registrado
-        como a pessoa que publicou.
-      </p>
-      <div className="mt-8">
+    <PageShell width="narrow">
+      <PageHeading
+        eyebrow="Publicação"
+        title="Publicar vaga"
+        description="A vaga é publicada em nome da empresa. Informe os recursos de acessibilidade no anúncio — não só no discurso."
+      />
+      <div className="surface-card p-6">
         <JobForm companies={companies} defaultCompanyId={defaultCompanyId} />
       </div>
-    </div>
+    </PageShell>
   );
 }

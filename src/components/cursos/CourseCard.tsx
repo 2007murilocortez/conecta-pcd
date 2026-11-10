@@ -19,13 +19,13 @@ function featureLabel(feature: string) {
 
 export function CourseCard({ course }: { course: CourseCardData }) {
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
-        <CardTitle>{course.title}</CardTitle>
-        <p className="text-neutral-600">
-          {course.provider ?? "Instituição"}
-          {course.category ? ` · ${course.category}` : ""}
-          {course.is_free ? " · Gratuito" : " · Consulte valores no site do curso"}
+        <p className="text-sm font-medium text-primary">{course.provider ?? "Instituição"}</p>
+        <CardTitle className="text-lg text-primary-dark">{course.title}</CardTitle>
+        <p className="mb-0 text-neutral-600">
+          {course.category ? `${course.category} · ` : ""}
+          {course.is_free ? "Gratuito" : "Consulte valores no site do curso"}
         </p>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -35,10 +35,9 @@ export function CourseCard({ course }: { course: CourseCardData }) {
             {course.accessibility_features.map((feature) => (
               <li
                 key={feature}
-                className="rounded-full bg-secondary/10 px-3 py-1 text-sm text-secondary"
+                className="rounded-full bg-success-surface px-3 py-1 text-sm font-medium text-success-text"
               >
-                {ACCESSIBILITY_NEEDS.find((item) => item.value === feature)?.label ??
-                  labelFor(ACCESSIBILITY_RESOURCES, feature)}
+                {featureLabel(feature)}
               </li>
             ))}
           </ul>

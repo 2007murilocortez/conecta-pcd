@@ -11,7 +11,7 @@ export function VerifiedInclusiveBadge() {
       <TooltipTrigger asChild>
         <button
           type="button"
-          className="inline-flex min-h-11 items-center gap-1 rounded-full bg-secondary/10 px-3 text-sm font-medium text-secondary focus-visible:outline-offset-1"
+          className="inline-flex min-h-11 items-center gap-1 rounded-full bg-success-surface px-3 text-sm font-medium text-success-text focus-visible:outline-offset-1"
         >
           <BadgeCheck className="size-4" aria-hidden />
           Empresa Inclusiva Verificada

@@ -1,5 +1,8 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { CourseCard } from "@/components/cursos/CourseCard";
 import { CourseFilters } from "@/components/cursos/CourseFilters";
+import { EmptyState, PageHeading, PageShell } from "@/components/shared";
 import { listCourses } from "@/lib/actions/courses";
 
 export const dynamic = "force-dynamic";
@@ -14,26 +17,31 @@ export default async function CursosPage({
   const result = await listCourses(category);
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-12">
-      <div>
-        <h1 className="text-primary">Cursos</h1>
-        <p>
-          Capacitação curada em fontes oficiais. A inscrição aqui só marca o
-          andamento no seu perfil — o curso em si acontece no site da instituição.
-        </p>
-      </div>
+    <PageShell width="wide">
+      <PageHeading
+        eyebrow="Capacitação"
+        title="Cursos"
+        description="Capacitação curada em fontes oficiais. A inscrição aqui só marca o andamento no seu perfil — o curso em si acontece no site da instituição."
+      />
 
       <CourseFilters category={category} categories={result.categories} />
 
       {result.error ? <p role="alert">{result.error}</p> : null}
 
       {result.data.length === 0 ? (
-        <p role="status" className="rounded-md border border-border bg-neutral-100 p-4">
-          Nenhum curso nesta categoria ainda. Se a lista inteira estiver vazia,
-          o seed de `supabase/seed.sql` ainda não foi aplicado no banco.
-        </p>
+        <EmptyState
+          title="Nenhum curso nesta categoria"
+          description="Se a lista inteira estiver vazia, o catálogo ainda não foi aplicado no banco. Tente ver todas as categorias."
+          action={
+            category ? (
+              <Button asChild variant="outline">
+                <Link href="/cursos">Ver todos</Link>
+              </Button>
+            ) : undefined
+          }
+        />
       ) : (
-        <ul className="space-y-4">
+        <ul className="mt-8 grid gap-4 md:grid-cols-2">
           {result.data.map((course) => (
             <li key={course.id}>
               <CourseCard course={course} />
@@ -41,6 +49,6 @@ export default async function CursosPage({
           ))}
         </ul>
       )}
-    </div>
+    </PageShell>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/button";
 
 const SLIDES = [
@@ -104,40 +105,58 @@ export function SiteWalkthrough() {
   }, [go, index]);
 
   return (
-    <div className="mx-auto flex min-h-[70vh] w-full max-w-3xl flex-col justify-center px-4 py-12">
-      <p className="text-sm text-neutral-600" aria-live="polite">
-        Slide {index + 1} de {SLIDES.length}
-      </p>
-      <h1 className="text-primary">{slide.title}</h1>
-      <p className="text-lg">{slide.body}</p>
-      {"href" in slide && slide.href ? (
-        <p>
-          <Button asChild>
-            <Link href={slide.href}>{slide.hrefLabel}</Link>
-          </Button>
+    <div className="mx-auto w-full max-w-5xl px-4 py-10 lg:py-16">
+      <div className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <BrandLogo variant="slogan" />
+        <p className="mb-0 rounded-full bg-brand-light px-3 py-1 text-sm font-medium text-primary-dark">
+          Demonstração — o roteiro não cria dados
         </p>
-      ) : null}
+      </div>
+      <div className="surface-card p-6 sm:p-10">
+        <p className="text-sm text-neutral-600" aria-live="polite">
+          Passo {index + 1} de {SLIDES.length}
+        </p>
+        <h1>{slide.title}</h1>
+        <p className="text-lg">{slide.body}</p>
+        {"href" in slide && slide.href ? (
+          <p>
+            <Button asChild>
+              <Link href={slide.href}>{slide.hrefLabel}</Link>
+            </Button>
+          </p>
+        ) : null}
 
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => go(index - 1)}
-          disabled={index === 0}
-        >
-          Anterior
-        </Button>
-        <Button type="button" onClick={() => go(index + 1)} disabled={last}>
-          Próximo
-        </Button>
-        <p className="text-sm text-neutral-600">Use as setas do teclado ou Espaço.</p>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => go(index - 1)}
+            disabled={index === 0}
+          >
+            Anterior
+          </Button>
+          <Button type="button" onClick={() => go(index + 1)} disabled={last}>
+            Próximo
+          </Button>
+          <p className="mb-0 text-sm text-neutral-600">Use as setas do teclado ou Espaço.</p>
+        </div>
       </div>
 
-      <ol className="sr-only">
+      <ol className="mt-6 flex flex-wrap gap-2" aria-label="Sumário da apresentação">
         {SLIDES.map((item, i) => (
           <li key={item.title}>
-            <button type="button" onClick={() => go(i)}>
-              {item.title}
+            <button
+              type="button"
+              onClick={() => go(i)}
+              aria-current={i === index ? "step" : undefined}
+              className={
+                i === index
+                  ? "inline-flex min-h-11 items-center rounded-full bg-primary px-3 text-sm font-medium text-white"
+                  : "inline-flex min-h-11 items-center rounded-full border border-border bg-white px-3 text-sm"
+              }
+            >
+              {i + 1}
+              <span className="sr-only">. {item.title}</span>
             </button>
           </li>
         ))}

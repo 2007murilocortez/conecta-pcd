@@ -188,7 +188,7 @@ export function AccessibilityToolbar({
       data-a11y-toolbar="true"
       role="region"
       aria-label="Ajustes de acessibilidade"
-      className="fixed bottom-4 left-4 z-50 rounded-lg border border-border bg-bg p-2 shadow-md"
+      className="fixed bottom-4 left-4 z-50 rounded-2xl border border-border bg-white p-2 shadow-[var(--shadow-card)]"
     >
       <div className="flex flex-wrap items-center gap-1">
         <Button

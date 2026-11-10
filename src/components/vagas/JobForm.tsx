@@ -101,7 +101,7 @@ export function JobForm({
                   <FormControl>
                     <select
                       id="job_company"
-                      className="min-h-11 w-full rounded-lg border border-input bg-transparent px-2.5"
+                      className="form-select"
                       {...field}
                     >
                       {companies.map((company) => (
@@ -120,6 +120,7 @@ export function JobForm({
           <input type="hidden" {...form.register("company_id")} />
         )}
 
+        <h2 className="text-lg">Detalhes</h2>
         <FormField
           control={form.control}
           name="title"
@@ -141,6 +142,7 @@ export function JobForm({
           )}
         />
 
+        <h2 className="text-lg">Descrição e requisitos</h2>
         <FormField
           control={form.control}
           name="description"
@@ -185,6 +187,7 @@ export function JobForm({
           )}
         />
 
+        <h2 className="text-lg">Regime e local</h2>
         <div className="grid gap-5 sm:grid-cols-2">
           <FormField
             control={form.control}
@@ -196,7 +199,7 @@ export function JobForm({
                   <FormControl>
                     <select
                       id="job_type"
-                      className="min-h-11 w-full rounded-lg border border-input bg-transparent px-2.5"
+                      className="form-select"
                       {...field}
                     >
                       {JOB_TYPES.map((type) => (
@@ -221,7 +224,7 @@ export function JobForm({
                   <FormControl>
                     <select
                       id="job_mode"
-                      className="min-h-11 w-full rounded-lg border border-input bg-transparent px-2.5"
+                      className="form-select"
                       {...field}
                     >
                       {WORK_MODES.map((mode) => (
@@ -263,7 +266,7 @@ export function JobForm({
                   <FormControl>
                     <select
                       id="job_state"
-                      className="min-h-11 w-full rounded-lg border border-input bg-transparent px-2.5"
+                      className="form-select"
                       {...field}
                       value={field.value ?? ""}
                     >
@@ -282,7 +285,7 @@ export function JobForm({
         </div>
 
         <fieldset className="space-y-4">
-          <legend className="font-medium">Salário (opcional)</legend>
+          <legend className="text-lg font-semibold text-primary-dark">Remuneração</legend>
           <div className="grid gap-5 sm:grid-cols-2">
             <FormField
               control={form.control}
@@ -370,8 +373,8 @@ export function JobForm({
           name="accessibility_resources"
           render={({ field }) => (
             <FormItem>
-              <fieldset>
-                <legend className="mb-2 font-medium">
+              <fieldset className="rounded-2xl border border-success-text/25 bg-success-surface p-4">
+                <legend className="px-1 font-medium text-success-text">
                   Recursos de acessibilidade oferecidos
                 </legend>
                 <div className="grid gap-2">

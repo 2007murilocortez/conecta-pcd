@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { AccessibilityChips } from "@/components/vagas/AccessibilityChips";
 import { JOB_TYPES, WORK_MODES, labelFor } from "@/lib/constants/jobs";
 import { formatExcerpt, formatLocation, formatPostedAt, formatSalary } from "@/lib/jobs/format";
@@ -11,44 +10,42 @@ export function JobCard({ job }: { job: JobWithCompany }) {
   const salary = job.salary_visible ? formatSalary(job.salary_min, job.salary_max) : null;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          <Link
-            href={`/vagas/${job.id}`}
-            className="text-primary focus-visible:outline-offset-1"
-          >
-            {job.title}
-          </Link>
-        </CardTitle>
-        <p className="text-neutral-600">
-          {companyName} · {formatLocation(job.location_city, job.location_state)}
-        </p>
-        <p className="flex flex-wrap gap-2">
-          <span className="rounded-full border border-border px-2 py-0.5 text-sm">
-            {labelFor(JOB_TYPES, job.type)}
-          </span>
-          <span className="rounded-full border border-border px-2 py-0.5 text-sm">
-            {labelFor(WORK_MODES, job.work_mode)}
-          </span>
-          {job.companies?.is_verified_inclusive ? (
-            <span className="rounded-full bg-secondary/10 px-2 py-0.5 text-sm text-secondary">
-              Empresa inclusiva verificada
-            </span>
-          ) : null}
-        </p>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <p>{formatExcerpt(job.description)}</p>
-        {salary ? <p className="font-medium">{salary}</p> : null}
+    <article className="surface-card surface-card-hover p-6">
+      <p className="mb-1 text-sm text-neutral-600">
+        {companyName} · {formatLocation(job.location_city, job.location_state)}
+      </p>
+      <h2 className="text-xl">
+        <Link
+          href={`/vagas/${job.id}`}
+          className="text-primary-dark focus-visible:outline-offset-1"
+        >
+          {job.title}
+        </Link>
+      </h2>
+      <ul className="mt-3 mb-4 flex flex-wrap gap-2" aria-label="Tipo e modalidade">
+        <li className="rounded-full border border-border bg-white px-3 py-1 text-sm">
+          {labelFor(JOB_TYPES, job.type)}
+        </li>
+        <li className="rounded-full border border-border bg-white px-3 py-1 text-sm">
+          {labelFor(WORK_MODES, job.work_mode)}
+        </li>
+        {job.companies?.is_verified_inclusive ? (
+          <li className="rounded-full bg-success-surface px-3 py-1 text-sm font-medium text-success-text">
+            Empresa inclusiva verificada
+          </li>
+        ) : null}
+      </ul>
+      <p className="text-neutral-900">{formatExcerpt(job.description)}</p>
+      {salary ? <p className="font-medium text-primary-dark">{salary}</p> : null}
+      <div className="mt-4">
         <AccessibilityChips resources={job.accessibility_resources} />
-      </CardContent>
-      <CardFooter className="justify-between gap-3">
-        <p className="text-sm text-neutral-600">{formatPostedAt(job.created_at)}</p>
+      </div>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+        <p className="mb-0 text-sm text-neutral-600">{formatPostedAt(job.created_at)}</p>
         <Button asChild>
-          <Link href={`/vagas/${job.id}`}>Candidatar-se</Link>
+          <Link href={`/vagas/${job.id}`}>Ver vaga</Link>
         </Button>
-      </CardFooter>
-    </Card>
+      </div>
+    </article>
   );
 }

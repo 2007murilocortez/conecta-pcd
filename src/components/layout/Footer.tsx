@@ -1,56 +1,46 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-border bg-neutral-100">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-8 md:flex-row md:items-start md:justify-between">
+    <footer className="mt-auto border-t border-border bg-white">
+      <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 md:grid-cols-[1.2fr_0.8fr]">
         <div>
-          <p className="mb-2 font-bold text-primary">Conecta PCD</p>
-          <p className="mb-0 max-w-md text-neutral-600">
+          <BrandLogo variant="slogan" />
+          <p className="mt-4 mb-0 max-w-md text-neutral-600">
             Rede profissional para pessoas com deficiência e empresas que
-            publicam vagas acessíveis.
+            publicam vagas com acessibilidade visível.
           </p>
         </div>
 
         <nav aria-label="Rodapé">
-          <ul className="flex flex-col gap-2">
+          <p className="mb-3 text-sm font-medium text-primary-dark">Navegação</p>
+          <ul className="flex flex-col gap-1">
             <li>
-              <Link
-                href="/apresentacao"
-                className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline"
-              >
+              <Link href="/apresentacao" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">
                 O que dá para fazer no site
               </Link>
             </li>
             <li>
-              <Link
-                href="/sobre-acessibilidade"
-                className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline"
-              >
+              <Link href="/sobre-acessibilidade" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">
                 Sobre acessibilidade
               </Link>
             </li>
             <li>
-              <Link
-                href="/vagas"
-                className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline"
-              >
-                Vagas
+              <Link href="/login" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">
+                Entrar
               </Link>
             </li>
             <li>
-              <Link
-                href="/empresas"
-                className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline"
-              >
-                Empresas
+              <Link href="/cadastro" className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">
+                Criar perfil
               </Link>
             </li>
           </ul>
         </nav>
       </div>
 
-      <div className="border-t border-border">
+      <div className="border-t border-border bg-[#F7FAFE]">
         <p className="mx-auto mb-0 max-w-6xl px-4 py-4 text-body-sm text-neutral-600">
           A tradução em Libras desta página é feita pelo widget público{" "}
           <a

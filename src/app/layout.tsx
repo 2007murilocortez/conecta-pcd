@@ -19,7 +19,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Conecta PCD — Rede profissional para pessoas com deficiência",
   description:
-    "Encontre vagas filtráveis por acessibilidade, avalie empresas e construa sua rede profissional.",
+    "Encontre vagas que informam os recursos de acessibilidade, avalie empresas e construa sua rede profissional.",
+  icons: {
+    icon: "/brand/conecta-pcd-icon-192.png",
+    apple: "/brand/conecta-pcd-icon-192.png",
+  },
 };
 
 export default function RootLayout({

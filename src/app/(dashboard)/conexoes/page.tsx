@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ConnectionActions } from "@/components/conexoes/ConnectionActions";
+import { EmptyState, PageHeading, PageShell } from "@/components/shared";
 import { listConnections } from "@/lib/actions/connections";
 
 export const dynamic = "force-dynamic";
@@ -9,27 +10,31 @@ export default async function ConexoesPage() {
 
   if (result.error || !result.data) {
     return (
-      <div className="mx-auto w-full max-w-3xl px-4 py-12">
-        <h1 className="text-primary">Conexões</h1>
+      <PageShell width="narrow">
+        <PageHeading title="Conexões" />
         <p role="alert">{result.error ?? "Não foi possível carregar as conexões."}</p>
-      </div>
+      </PageShell>
     );
   }
 
   const { accepted, incoming, outgoing } = result.data;
 
   return (
-    <div className="mx-auto w-full max-w-3xl space-y-10 px-4 py-12">
-      <h1 className="text-primary">Conexões</h1>
+    <PageShell width="narrow" className="space-y-10">
+      <PageHeading
+        eyebrow="Rede"
+        title="Conexões"
+        description="Aceite pedidos, acompanhe os que você enviou e veja quem já faz parte da sua rede."
+      />
 
-      <section>
-        <h2>Pedidos recebidos</h2>
+      <section className="surface-card p-6">
+        <h2 className="text-xl">Pedidos recebidos</h2>
         {incoming.length === 0 ? (
-          <p>Nenhum pedido pendente.</p>
+          <p className="mb-0 text-neutral-600">Nenhum pedido pendente.</p>
         ) : (
-          <ul className="mt-3 space-y-3">
+          <ul className="mt-4 space-y-3">
             {incoming.map((item) => (
-              <li key={item.id} className="space-y-3 rounded-xl border border-border p-4">
+              <li key={item.id} className="space-y-3 rounded-2xl border border-border bg-white p-4">
                 <PersonLink person={item.person} />
                 <ConnectionActions connectionId={item.id} />
               </li>
@@ -38,40 +43,40 @@ export default async function ConexoesPage() {
         )}
       </section>
 
-      <section>
-        <h2>Pedidos enviados</h2>
+      <section className="surface-card p-6">
+        <h2 className="text-xl">Pedidos enviados</h2>
         {outgoing.length === 0 ? (
-          <p>Nenhum pedido aguardando resposta.</p>
+          <p className="mb-0 text-neutral-600">Nenhum pedido aguardando resposta.</p>
         ) : (
-          <ul className="mt-3 space-y-3">
+          <ul className="mt-4 space-y-3">
             {outgoing.map((item) => (
-              <li key={item.id} className="rounded-xl border border-border p-4">
+              <li key={item.id} className="rounded-2xl border border-border bg-white p-4">
                 <PersonLink person={item.person} />
-                <p className="text-sm text-neutral-600">Aguardando resposta</p>
+                <p className="mb-0 text-sm text-neutral-600">Aguardando resposta</p>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      <section>
-        <h2>Conexões aceitas</h2>
+      <section className="surface-card p-6">
+        <h2 className="text-xl">Conexões aceitas</h2>
         {accepted.length === 0 ? (
-          <p>
-            Você ainda não tem conexões aceitas. Visite perfis e use Conectar, ou
-            acompanhe os pedidos acima.
-          </p>
+          <EmptyState
+            title="Você ainda não tem conexões aceitas"
+            description="Visite perfis e use Conectar, ou acompanhe os pedidos acima."
+          />
         ) : (
-          <ul className="mt-3 space-y-3">
+          <ul className="mt-4 space-y-3">
             {accepted.map((item) => (
-              <li key={item.id} className="rounded-xl border border-border p-4">
+              <li key={item.id} className="rounded-2xl border border-border bg-white p-4">
                 <PersonLink person={item.person} />
               </li>
             ))}
           </ul>
         )}
       </section>
-    </div>
+    </PageShell>
   );
 }
 
@@ -82,12 +87,12 @@ function PersonLink({
 }) {
   return (
     <div>
-      <p className="font-medium">
-        <Link href={`/perfil/${person.id}`} className="text-primary focus-visible:outline-offset-1">
+      <p className="mb-0 font-medium">
+        <Link href={`/perfil/${person.id}`} className="text-primary-dark focus-visible:outline-offset-1">
           {person.full_name}
         </Link>
       </p>
-      {person.headline ? <p className="text-neutral-600">{person.headline}</p> : null}
+      {person.headline ? <p className="mb-0 text-neutral-600">{person.headline}</p> : null}
     </div>
   );
 }
