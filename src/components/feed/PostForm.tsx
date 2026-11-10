@@ -2,14 +2,19 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createPost } from "@/lib/actions/posts";
-import { POST_STARTERS } from "@/lib/constants/posts";
 
-export function PostForm() {
+type PostFormProps = {
+  authorName: string;
+  authorAvatarUrl: string | null;
+};
+
+export function PostForm({ authorName, authorAvatarUrl }: PostFormProps) {
   const router = useRouter();
   const [content, setContent] = useState("");
   const [status, setStatus] = useState<string | null>(null);
@@ -29,7 +34,7 @@ export function PostForm() {
       return;
     }
 
-    setStatus("Post publicado na sua rede.");
+    setStatus("Publicado na sua rede.");
     form.reset();
     setContent("");
     setShowImage(false);
@@ -38,20 +43,16 @@ export function PostForm() {
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="surface-card space-y-4 p-5"
-      noValidate
-    >
+    <form onSubmit={onSubmit} className="surface-card space-y-4 p-5" noValidate>
       <div aria-live="polite" className="sr-only">
         {status}
       </div>
       {status ? (
         <p
-          role={status.startsWith("Post") ? "status" : "alert"}
+          role={status.startsWith("Publicado") ? "status" : "alert"}
           className={
-            status.startsWith("Post")
-              ? "text-sm text-secondary"
+            status.startsWith("Publicado")
+              ? "text-sm text-success-text"
               : "text-sm font-medium text-destructive"
           }
         >
@@ -59,43 +60,28 @@ export function PostForm() {
         </p>
       ) : null}
 
-      <Field>
-        <FieldLabel htmlFor="post_content">Publicar na rede</FieldLabel>
-        <Textarea
-          id="post_content"
-          name="content"
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
-          className="min-h-24"
-          maxLength={2000}
-          required
-          placeholder="Ex.: concluí um curso, estou buscando vaga remota ou quero uma dica de acessibilidade…"
-        />
-      </Field>
-
-      <div>
-        <p className="mb-2 text-sm text-neutral-600">Começar com um modelo</p>
-        <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
-          {POST_STARTERS.map((starter) => (
-            <li key={starter.label}>
-              <Button
-                type="button"
-                variant="outline"
-                className="h-auto py-1.5"
-                onClick={() => {
-                  setContent(starter.text);
-                  setStatus(null);
-                }}
-              >
-                {starter.label}
-              </Button>
-            </li>
-          ))}
-        </ul>
+      <div className="flex items-start gap-3">
+        <Avatar className="mt-1 size-12">
+          {authorAvatarUrl ? <AvatarImage src={authorAvatarUrl} alt="" /> : null}
+          <AvatarFallback>{authorName.slice(0, 1).toUpperCase()}</AvatarFallback>
+        </Avatar>
+        <Field className="min-w-0 flex-1">
+          <FieldLabel htmlFor="post_content">Escrever para a rede</FieldLabel>
+          <Textarea
+            id="post_content"
+            name="content"
+            value={content}
+            onChange={(event) => setContent(event.target.value)}
+            className="min-h-28"
+            maxLength={2000}
+            required
+            placeholder="Compartilhe uma conquista, uma vaga ou um aprendizado da rotina."
+          />
+        </Field>
       </div>
 
       {showImage ? (
-        <>
+        <div className="space-y-4 sm:pl-[3.75rem]">
           <Field>
             <FieldLabel htmlFor="post_image">Imagem (opcional)</FieldLabel>
             <Input
@@ -116,20 +102,19 @@ export function PostForm() {
                 : "Para leitores de tela, se for enviar foto."}
             </FieldDescription>
           </Field>
-        </>
-      ) : (
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => setShowImage(true)}
-        >
-          Anexar imagem
-        </Button>
-      )}
+        </div>
+      ) : null}
 
-      <Button type="submit" disabled={pending || content.trim().length === 0}>
-        {pending ? "Publicando…" : "Publicar"}
-      </Button>
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:pl-[3.75rem]">
+        {showImage ? null : (
+          <Button type="button" variant="ghost" onClick={() => setShowImage(true)}>
+            Anexar imagem
+          </Button>
+        )}
+        <Button type="submit" className="ml-auto" disabled={pending || content.trim().length === 0}>
+          {pending ? "Publicando…" : "Publicar"}
+        </Button>
+      </div>
     </form>
   );
 }

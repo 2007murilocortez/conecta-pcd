@@ -163,8 +163,8 @@ where id = 'a2222222-2222-4222-8222-222222222222';
 update public.profiles
 set
   full_name = 'Paulo Ribeiro',
-  headline = 'Coordenador administrativo e mentor',
-  bio = 'Disponível para mentoria sobre primeiro emprego, rotina de escritório e adaptação do ambiente de trabalho.',
+  headline = 'Coordenador administrativo',
+  bio = 'Trabalho com rotina de escritório, equipe administrativa e adaptação do posto de trabalho. Surdo, uso Libras no dia a dia.',
   location_city = 'Belo Horizonte',
   location_state = 'MG',
   discloses_disability = true,
@@ -258,7 +258,7 @@ insert into public.skills (id, name) values
   ('b0000000-0000-4000-8000-000000000003', 'Organização'),
   ('b0000000-0000-4000-8000-000000000004', 'Comunicação escrita'),
   ('b0000000-0000-4000-8000-000000000005', 'Recrutamento'),
-  ('b0000000-0000-4000-8000-000000000006', 'Mentoria'),
+  ('b0000000-0000-4000-8000-000000000006', 'Gestão de equipe'),
   ('b0000000-0000-4000-8000-000000000007', 'Operação de caixa'),
   ('b0000000-0000-4000-8000-000000000008', 'Estoque'),
   ('b0000000-0000-4000-8000-000000000009', 'Digitação')
@@ -538,40 +538,52 @@ insert into public.posts (id, profile_id, content, created_at) values
   (
     'f3333333-3333-4333-8333-333333333333',
     'a3333333-3333-4333-8333-333333333333',
-    'Abri agenda de mentoria para quem está buscando o primeiro emprego — administrativo, atendimento, caixa — com acessibilidade de verdade.',
+    'Na equipe administrativa, o que mais mudou o dia a dia foi combinar o posto de trabalho no primeiro mês: leitor de tela, pausas e horário. Vale perguntar isso na entrevista, não só depois de entrar.',
     now() - interval '2 days'
   ),
   (
     'f1111111-1111-4111-8111-111111111111',
     'a1111111-1111-4111-8111-111111111111',
-    'Concluí o curso de Acessibilidade na Comunicação da EVG. Recomendo para quem for entrevistar ou publicar vaga.',
+    'Terminei o curso de Acessibilidade na Comunicação da Escola Virtual de Governo. Ajudou bastante a entender como descrever um processo seletivo com clareza.',
     now() - interval '1 day'
   ),
   (
     'f2222222-2222-4222-8222-222222222222',
     'a2222222-2222-4222-8222-222222222222',
-    'Abrimos vaga de auxiliar administrativo: processo com leitor de tela e horário flexível. Também tem caixa, estoque e recepção. A acessibilidade vai na descrição, não só no discurso.',
+    'A Rede Viva Mais está com vaga de auxiliar administrativo em São Paulo, híbrida. O anúncio descreve leitor de tela e horário flexível. Também há caixa, estoque e recepção abertos.',
     now() - interval '3 hours'
   ),
   (
     'f4444444-4444-4444-8444-444444444444',
     'a4444444-4444-4444-8444-444444444444',
-    'Procuro vaga de estoque ou caixa com horário flexível. Quem da rede já passou por processo seletivo que descrevia acessibilidade de verdade?',
+    'Trabalho com estoque e estou de olho em vagas com horário flexível. Se alguém da rede já fez processo seletivo nessa área e puder contar como foi, agradeço.',
     now() - interval '5 hours'
   ),
   (
     'f5555555-5555-4555-8555-555555555555',
     'a1111111-1111-4111-8111-111111111111',
-    'Alguém indica empresa que coloca Libras ou leitor de tela na vaga, em vez de um selo genérico?',
+    'Alguém conhece empresa em São Paulo que já coloca Libras ou leitor de tela na descrição da vaga? Quero me candidatar com mais informação.',
     now() - interval '1 hour'
   ),
   (
     'f6666666-6666-4666-8666-666666666666',
     'a3333333-3333-4333-8333-333333333333',
-    'Dica rápida: se a entrevista precisa de intérprete, isso tem que estar escrito no anúncio. Candidata e candidato não deveriam ter que descobrir na hora.',
+    'Se a entrevista precisa de intérprete, isso tem que estar no anúncio. Candidata e candidato não deveriam descobrir na hora.',
     now() - interval '8 hours'
+  ),
+  (
+    'f7777777-7777-4777-8777-777777777777',
+    'a2222222-2222-4222-8222-222222222222',
+    'No primeiro contato com quem se candidata, já perguntamos qual recurso a pessoa precisa na entrevista. Evita improviso e deixa o processo mais respeitoso.',
+    now() - interval '12 hours'
+  ),
+  (
+    'f8888888-8888-4888-8888-888888888888',
+    'a4444444-4444-4444-8444-444444444444',
+    'Hoje foi um dia corrido no estoque, mas o horário flexível fez diferença no deslocamento. Pequeno ajuste, grande diferença na rotina.',
+    now() - interval '30 hours'
   )
-on conflict (id) do update set content = excluded.content;
+on conflict (id) do update set content = excluded.content, created_at = excluded.created_at;
 
 insert into public.course_enrollments (profile_id, course_id, status, completed_at) values
   (
