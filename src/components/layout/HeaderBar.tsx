@@ -29,13 +29,7 @@ const NAV_GROUPS = [
       { href: "/vagas", label: "Vagas" },
       { href: "/empresas", label: "Empresas" },
       { href: "/cursos", label: "Cursos" },
-    ],
-  },
-  {
-    label: "Rede",
-    items: [
       { href: "/conexoes", label: "Conexões" },
-      { href: "/mentoria", label: "Mentoria" },
     ],
   },
   {

@@ -53,19 +53,13 @@ const SLIDES = [
     hrefLabel: "Abrir conexões",
   },
   {
-    title: "8. Pede mentoria",
-    body: "No perfil, marque “disponível para mentoria”. Em Mentoria você vê quem está aberto, manda uma mensagem e espera o aceite. Não tem chat: o aceite libera o perfil da outra pessoa.",
-    href: "/mentoria",
-    hrefLabel: "Ver mentoria",
-  },
-  {
-    title: "9. Faz um curso",
+    title: "8. Faz um curso",
     body: "Cursos são links oficiais (governo, SEBRAE, SENAI, FGV…). Você se inscreve aqui só para marcar em andamento ou concluído. O concluído aparece na capacitação do perfil.",
     href: "/cursos",
     hrefLabel: "Ver cursos",
   },
   {
-    title: "10. Acessibilidade não é extra",
+    title: "9. Acessibilidade não é extra",
     body: "Canto inferior esquerdo: aumenta a fonte, alto contraste, menos animação e o botão de ouvir o texto (uma voz lê o que está escrito). Em toda página tem VLibras (Libras). Dá para usar só com teclado — Tab, Enter, e nesta apresentação as setas.",
     href: "/sobre-acessibilidade",
     hrefLabel: "Como o site é acessível",

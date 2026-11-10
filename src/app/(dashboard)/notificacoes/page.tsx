@@ -20,7 +20,7 @@ export default async function NotificacoesPage() {
       <PageHeading
         eyebrow="Atualizações"
         title="Notificações"
-        description="Aviso dentro do app para o que importa no dia a dia. E-mail só sai para mudança de candidatura e aceite de mentoria — sem spam de conexão ou curtida."
+        description="Aviso dentro do app para o que importa no dia a dia. E-mail só sai para mudança de candidatura — sem spam de conexão ou curtida."
         actions={result.unreadCount > 0 ? <MarkAllReadButton /> : undefined}
       />
 
@@ -29,7 +29,7 @@ export default async function NotificacoesPage() {
       {result.data.length === 0 ? (
         <EmptyState
           title="Você ainda não tem notificações"
-          description="Quando houver pedido de conexão, candidatura ou mentoria, o aviso aparece aqui."
+          description="Quando houver pedido de conexão ou candidatura, o aviso aparece aqui."
         />
       ) : (
         <ul className="space-y-3">

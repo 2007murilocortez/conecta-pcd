@@ -87,7 +87,7 @@ export default function SobreAcessibilidadePage() {
                 Página de empresa com avaliações (inclusive anônimas) e selo de
                 empresa inclusiva concedido por administrador, não autodeclarado.
               </li>
-              <li>Conexões, feed, mentoria e cursos oficiais gratuitos.</li>
+              <li>Conexões, feed e cursos oficiais gratuitos.</li>
               <li>
                 Recomendação simples: vaga que cruza com as skills do perfil e é
                 remota ou do mesmo estado; cursos nas categorias que ainda faltam.

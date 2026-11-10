@@ -289,34 +289,6 @@ function BasicsSection({ profile }: { profile: Tables<"profiles"> }) {
             )}
           />
 
-          <h3 className="pt-2">Preferências de mentoria</h3>
-          <FormField
-            control={form.control}
-            name="open_to_mentor"
-            render={({ field }) => (
-              <FormItem>
-                <Field orientation="horizontal">
-                  <FormControl>
-                    <Switch
-                      id="open_to_mentor"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      aria-describedby="mentor-help"
-                    />
-                  </FormControl>
-                  <div>
-                    <FieldLabel htmlFor="open_to_mentor">
-                      Disponível para mentoria
-                    </FieldLabel>
-                    <FieldDescription id="mentor-help">
-                      Outras pessoas poderão te encontrar em Mentoria e enviar um pedido.
-                    </FieldDescription>
-                  </div>
-                </Field>
-              </FormItem>
-            )}
-          />
-
           <Button type="submit" disabled={pending}>
             {pending ? "Salvando…" : "Salvar dados básicos"}
           </Button>

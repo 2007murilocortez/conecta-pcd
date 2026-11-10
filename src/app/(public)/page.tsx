@@ -95,7 +95,7 @@ export default function LandingPage() {
             <FeatureIcon><Users className="size-5" /></FeatureIcon>
             <h2 className="mt-4 text-xl">Conexões e aprendizado</h2>
             <p className="mb-0 text-neutral-600">
-              Amplie sua rede, peça mentoria e acompanhe cursos de instituições parceiras.
+              Amplie sua rede profissional e acompanhe cursos de instituições parceiras.
             </p>
           </li>
         </ul>
@@ -210,18 +210,13 @@ export default function LandingPage() {
       <section className="mx-auto w-full max-w-6xl px-4 py-16">
         <h2>Uma carreira também se constrói com conexões.</h2>
         <p className="mt-3 max-w-3xl text-neutral-600">
-          Compartilhe aprendizados no feed, amplie sua rede e descubra mentoria e cursos de parceiros. A mentoria acontece por solicitação e aceite — não há chat interno. Os cursos abrem no site da instituição.
+          Compartilhe aprendizados no feed, amplie sua rede e descubra cursos de parceiros. Os cursos abrem no site da instituição.
         </p>
-        <ul className="mt-8 grid gap-4 md:grid-cols-3">
+        <ul className="mt-8 grid gap-4 md:grid-cols-2">
           <li className="surface-card p-6">
             <FeatureIcon><Users className="size-5" /></FeatureIcon>
             <h3 className="mt-4">Rede</h3>
             <p className="mb-0 text-neutral-600">Pedidos de conexão, feed das pessoas aceitas e perfil profissional.</p>
-          </li>
-          <li className="surface-card p-6">
-            <FeatureIcon><Handshake className="size-5" /></FeatureIcon>
-            <h3 className="mt-4">Mentoria</h3>
-            <p className="mb-0 text-neutral-600">Encontre quem está aberto a orientar e combine o contato pelo perfil após o aceite.</p>
           </li>
           <li className="surface-card p-6">
             <FeatureIcon><GraduationCap className="size-5" /></FeatureIcon>

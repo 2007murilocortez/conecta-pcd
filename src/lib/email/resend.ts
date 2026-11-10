@@ -13,8 +13,8 @@ import type { Database } from "@/types/database.types";
  * Só usamos service role aqui, no servidor, para resolver o e-mail em
  * auth.users. Nunca exponha essa chave no client.
  *
- * Falha de envio nunca deve quebrar o fluxo principal (candidatura /
- * mentoria já foram persistidas). Só logamos o erro.
+ * Falha de envio nunca deve quebrar o fluxo principal (a candidatura
+ * já foi persistida). Só logamos o erro.
  */
 const FROM = "Conecta PCD <onboarding@resend.dev>";
 
@@ -80,17 +80,6 @@ export function applicationStatusEmail(input: {
   const subject = `Candidatura atualizada: ${input.jobTitle}`;
   const text = `Sua candidatura para ${input.jobTitle} mudou para ${input.statusLabel}. Acompanhe em ${input.siteUrl}/candidaturas`;
   const html = `<p>Sua candidatura para <strong>${escapeHtml(input.jobTitle)}</strong> mudou para <strong>${escapeHtml(input.statusLabel)}</strong>.</p><p><a href="${input.siteUrl}/candidaturas">Ver candidaturas</a></p>`;
-  return { subject, text, html };
-}
-
-export function mentorshipAcceptedEmail(input: {
-  mentorName: string;
-  siteUrl: string;
-  mentorProfileId: string;
-}) {
-  const subject = "Sua mentoria foi aceita";
-  const text = `${input.mentorName} aceitou seu pedido de mentoria. O contato é o perfil da pessoa: ${input.siteUrl}/perfil/${input.mentorProfileId}`;
-  const html = `<p><strong>${escapeHtml(input.mentorName)}</strong> aceitou seu pedido de mentoria.</p><p>Neste MVP o contato é o perfil: <a href="${input.siteUrl}/perfil/${input.mentorProfileId}">abrir perfil</a>.</p>`;
   return { subject, text, html };
 }
 

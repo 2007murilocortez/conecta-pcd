@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ConnectButton } from "@/components/conexoes/ConnectButton";
-import { StatusBadge } from "@/components/shared";
 import { listCompletedCourses } from "@/lib/actions/courses";
 import { getPublicProfile } from "@/lib/actions/connections";
 import { ACCESSIBILITY_NEEDS, DISABILITY_TYPES } from "@/lib/constants/profile";
@@ -41,9 +40,6 @@ export default async function PerfilPage({
             <h1>{profile.full_name}</h1>
             {profile.headline ? <p className="mb-0">{profile.headline}</p> : null}
             {location ? <p className="mb-0 text-neutral-600">{location}</p> : null}
-            {profile.open_to_mentor ? (
-              <StatusBadge tone="success">Disponível para mentoria</StatusBadge>
-            ) : null}
             {isSelf ? (
               <p className="mb-0">
                 <Link href="/perfil/editar" className="text-primary underline underline-offset-4">
