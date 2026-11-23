@@ -101,12 +101,15 @@ export function HeaderBar({ isLoggedIn, unreadCount, companies }: HeaderBarProps
       {isLoggedIn ? (
         <aside
           data-app-sidebar
-          className="fixed top-0 left-0 z-40 hidden h-full w-[17rem] flex-col border-r border-border bg-white px-4 py-5 lg:flex"
+          className="fixed inset-y-0 left-0 z-40 hidden w-[17rem] flex-col overflow-hidden border-r border-border bg-white px-4 py-5 lg:flex"
         >
-          <Link href="/feed" className="mb-6 inline-flex items-center px-1">
+          <Link href="/feed" className="mb-6 inline-flex shrink-0 items-center px-1">
             <BrandLogo priority />
           </Link>
-          <nav aria-label="Área logada" className="flex flex-1 flex-col gap-6 overflow-y-auto">
+          <nav
+            aria-label="Área logada"
+            className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain pb-28"
+          >
             {NAV_GROUPS.map((group) => (
               <div key={group.label}>
                 <p className="mb-1 px-3 text-xs font-medium tracking-wide text-neutral-600">
